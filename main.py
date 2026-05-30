@@ -13,7 +13,10 @@ def _check_playwright(app: AlocasiaTrackApp):
     from dialogs.playwright_install_dialog import PlaywrightInstallDialog
     dlg = PlaywrightInstallDialog(app)
     app.wait_window(dlg)
-    if dlg.suppress_future:
+    # Suppress future prompts on skip (user chose not to install now)
+    # or on success (playwright_ready() will return True next launch anyway,
+    # but the flag avoids the import overhead entirely).
+    if dlg.suppress_future or dlg.result == "installed":
         set_value("playwright_dont_ask", True)
 
 

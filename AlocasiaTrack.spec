@@ -34,6 +34,8 @@ a = Analysis(
     binaries=ctk_binaries,
     datas=ctk_datas + [
         (os.path.join(project_root, "docs"), "docs"),
+        # Bundle icon so app.py can call iconbitmap() at runtime
+        (os.path.join(project_root, "icon.ico"), "."),
     ],
     hiddenimports=ctk_hiddenimports + [
         # Google auth / API

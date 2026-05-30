@@ -37,6 +37,7 @@ class AlocasiaTrackApp(ctk.CTk):
         self.title("AlocasiaTrack")
         self.geometry("1280x800")
         self.minsize(1000, 640)
+        self._set_icon()
 
         self._setup_layout()
         self._create_sidebar()
@@ -136,6 +137,19 @@ class AlocasiaTrackApp(ctk.CTk):
 
         self._views:       dict[str, ctk.CTkFrame] = {}
         self._current_key: str | None = None
+
+    # ----------------------------------------------------------------- icon
+    def _set_icon(self):
+        try:
+            if hasattr(sys, "_MEIPASS"):
+                path = os.path.join(sys._MEIPASS, "icon.ico")
+            else:
+                path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                    "icon.ico")
+            if os.path.exists(path):
+                self.iconbitmap(path)
+        except Exception:
+            pass  # non-fatal — fall back to default CTk icon
 
     # ----------------------------------------------------------------- help
     def _open_manual(self):

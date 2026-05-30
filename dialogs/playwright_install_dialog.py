@@ -48,14 +48,31 @@ def playwright_ready() -> bool:
     """Return True only when both the package and Chromium binary are present."""
     try:
         import playwright  # noqa: F401
-    except ImportError:
+    except Exception:
         return False
+
+    # Try playwright's own API first — most reliable, version-independent
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as pw:
+            exe = pw.chromium.executable_path
+            if os.path.exists(exe):
+                return True
+    except Exception:
+        pass
+
+    # Fallback: glob known install paths
+    # Directory name varies by version: chrome-win (older) or chrome-win64 (newer)
     local_app = os.environ.get("LOCALAPPDATA", "")
-    # Directory name varies by Playwright version: chrome-win (older) or chrome-win64 (newer)
-    for pattern in [
+    home = os.path.expanduser("~")
+    patterns = [
         os.path.join(local_app, "ms-playwright", "chromium-*", "chrome-win64", "chrome.exe"),
         os.path.join(local_app, "ms-playwright", "chromium-*", "chrome-win",   "chrome.exe"),
-    ]:
+        # macOS
+        os.path.join(home, "Library", "Caches", "ms-playwright", "chromium-*",
+                     "chrome-mac", "Chromium.app", "Contents", "MacOS", "Chromium"),
+    ]
+    for pattern in patterns:
         if glob.glob(pattern):
             return True
     return False
@@ -117,12 +134,13 @@ class PlaywrightInstallDialog(ctk.CTkToplevel):
         # hidden until install starts
         self._bar_visible = False
 
-        self._dont_ask_var = ctk.IntVar(value=0)
-        ctk.CTkCheckBox(
+        ctk.CTkLabel(
             self,
-            text="Don't ask me again",
-            variable=self._dont_ask_var,
-        ).pack(anchor="w", padx=24, pady=(14, 6))
+            text="You can install it later from Settings → Facebook.",
+            font=ctk.CTkFont(size=12),
+            text_color=("gray50", "gray55"),
+            anchor="w",
+        ).pack(fill="x", padx=24, pady=(10, 4))
 
         btn_row = ctk.CTkFrame(self, fg_color="transparent")
         btn_row.pack(fill="x", padx=24, pady=(0, 20))
@@ -143,7 +161,9 @@ class PlaywrightInstallDialog(ctk.CTkToplevel):
     # ── actions ──────────────────────────────────────────────────────────────
 
     def _skip(self):
-        self._suppress = bool(self._dont_ask_var.get())
+        # Always suppress future prompts when the user skips —
+        # they can install from Settings → Facebook whenever ready.
+        self._suppress = True
         self.result = "skipped"
         self.destroy()
 
