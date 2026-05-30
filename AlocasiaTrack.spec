@@ -18,7 +18,7 @@ from PyInstaller.utils.hooks import collect_all
 # customtkinter ships theme JSON + image files that must travel with the bundle
 ctk_datas, ctk_binaries, ctk_hiddenimports = collect_all("customtkinter")
 
-project_root = os.path.dirname(SPECPATH) if SPECPATH else os.getcwd()
+project_root = SPECPATH  # spec lives in the project root
 
 # Platform-specific icon format
 if sys.platform == "darwin":
