@@ -1,0 +1,30 @@
+# ── PyInstaller output ────────────────────────────────
+dist/
+build/AlocasiaTrack/
+installer_output/
+
+# ── Python cache ──────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# ── Generated assets (built by scripts at build time) ─
+icon.ico
+icon.icns
+icon_preview*.png
+
+# ── User / runtime data ───────────────────────────────
+# (never commit local DB or config)
+*.db
+config.json
+token.json
+fb_session.json
+shopify_products.json
+credentials.json
+
+# ── Editor / OS files ─────────────────────────────────
+.claude/
+.DS_Store
+Thumbs.db
+*.log
