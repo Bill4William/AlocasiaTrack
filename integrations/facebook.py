@@ -71,12 +71,14 @@ def _imports():
     try:
         from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
         return sync_playwright, PWTimeout
-    except ImportError:
+    except Exception as exc:
         raise RuntimeError(
-            "Playwright is not installed.\n"
-            "Run:  pip install playwright\n"
-            "Then: playwright install chromium"
-        )
+            f"Playwright could not be loaded ({exc}).\n\n"
+            "Make sure it is installed:\n"
+            "    pip install playwright\n"
+            "    playwright install chromium\n\n"
+            "You can also use the Install button in Settings → Facebook."
+        ) from exc
 
 
 def _is_logged_in(page) -> bool:

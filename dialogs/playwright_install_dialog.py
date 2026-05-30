@@ -45,20 +45,26 @@ def _find_python() -> str:
 # ── detection ────────────────────────────────────────────────────────────────
 
 def playwright_ready() -> bool:
-    """Return True only when both the package and Chromium binary are present."""
+    """Return True only when sync_playwright is importable AND Chromium is present."""
+    # Use the same import that the integration actually uses at runtime
     try:
-        import playwright  # noqa: F401
+        from playwright.sync_api import sync_playwright  # noqa: F401
     except Exception:
         return False
 
-    # Glob known install paths — fast, no subprocess needed.
-    # Directory name varies by Playwright version:
-    #   chrome-win64  (newer)   chrome-win  (older)
+    # Glob known Chromium install paths — fast, no subprocess needed.
+    # Base dir can be overridden by PLAYWRIGHT_BROWSERS_PATH env var.
     local_app = os.environ.get("LOCALAPPDATA", "")
     home = os.path.expanduser("~")
+    pw_base = os.environ.get(
+        "PLAYWRIGHT_BROWSERS_PATH",
+        os.path.join(local_app, "ms-playwright"),
+    )
     patterns = [
-        os.path.join(local_app, "ms-playwright", "chromium-*", "chrome-win64", "chrome.exe"),
-        os.path.join(local_app, "ms-playwright", "chromium-*", "chrome-win",   "chrome.exe"),
+        # Windows — newer Playwright versions
+        os.path.join(pw_base, "chromium-*", "chrome-win64", "chrome.exe"),
+        # Windows — older Playwright versions
+        os.path.join(pw_base, "chromium-*", "chrome-win", "chrome.exe"),
         # macOS
         os.path.join(home, "Library", "Caches", "ms-playwright", "chromium-*",
                      "chrome-mac", "Chromium.app", "Contents", "MacOS", "Chromium"),

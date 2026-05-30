@@ -385,6 +385,12 @@ class SettingsView(ctk.CTkFrame):
         from integrations.facebook import is_session_saved, clear_session, CONDITIONS
 
         parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+
+        scroll = ctk.CTkScrollableFrame(parent, fg_color="transparent")
+        scroll.grid(row=0, column=0, sticky="nsew")
+        scroll.grid_columnconfigure(0, weight=1)
+        parent = scroll  # redirect all section calls into the scroll frame
 
         # ── How it works ─────────────────────────────────────────────────
         s0 = self._section(parent, 0, "How It Works")
