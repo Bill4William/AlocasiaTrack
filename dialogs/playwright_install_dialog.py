@@ -51,18 +51,9 @@ def playwright_ready() -> bool:
     except Exception:
         return False
 
-    # Try playwright's own API first — most reliable, version-independent
-    try:
-        from playwright.sync_api import sync_playwright
-        with sync_playwright() as pw:
-            exe = pw.chromium.executable_path
-            if os.path.exists(exe):
-                return True
-    except Exception:
-        pass
-
-    # Fallback: glob known install paths
-    # Directory name varies by version: chrome-win (older) or chrome-win64 (newer)
+    # Glob known install paths — fast, no subprocess needed.
+    # Directory name varies by Playwright version:
+    #   chrome-win64  (newer)   chrome-win  (older)
     local_app = os.environ.get("LOCALAPPDATA", "")
     home = os.path.expanduser("~")
     patterns = [

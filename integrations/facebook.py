@@ -104,8 +104,8 @@ def connect(on_done: Callable[[str], None],
     """Open a visible browser for manual FB login, then save the session."""
 
     def _worker():
-        sync_playwright, PWTimeout = _imports()
         try:
+            sync_playwright, PWTimeout = _imports()
             with sync_playwright() as pw:
                 browser = pw.chromium.launch(headless=False, slow_mo=200)
                 ctx     = browser.new_context()
@@ -141,8 +141,8 @@ def create_listing(listing_data: dict,
     """
 
     def _worker():
-        sync_playwright, PWTimeout = _imports()
         try:
+            sync_playwright, PWTimeout = _imports()
             with sync_playwright() as pw:
                 browser = pw.chromium.launch(headless=False, slow_mo=400)
                 ctx     = browser.new_context()

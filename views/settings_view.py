@@ -462,14 +462,33 @@ class SettingsView(ctk.CTkFrame):
 
         # ── Playwright install check ──────────────────────────────────────
         s3 = self._section(parent, 3, "Browser Requirement")
+
+        self._pw_status_lbl = ctk.CTkLabel(
+            s3, text="", font=ctk.CTkFont(size=12), anchor="w"
+        )
+        self._pw_status_lbl.pack(anchor="w", padx=16, pady=(6, 4))
+
+        pw_btn_row = ctk.CTkFrame(s3, fg_color="transparent")
+        pw_btn_row.pack(anchor="w", padx=16, pady=(0, 10))
+
+        self._pw_install_btn = ctk.CTkButton(
+            pw_btn_row, text="Install Playwright + Chromium", width=230,
+            command=self._install_playwright,
+        )
+        self._pw_install_btn.pack(side="left", padx=(0, 10))
+
+        self._pw_progress = ctk.CTkProgressBar(pw_btn_row, width=160, mode="indeterminate")
+
         ctk.CTkLabel(
             s3,
-            text="Playwright + Chromium must be installed once:\n\n"
+            text="Or install manually in a terminal:\n\n"
                  "   pip install playwright\n"
                  "   playwright install chromium",
             justify="left", font=ctk.CTkFont(family="Consolas", size=11),
             text_color=("gray40", "gray70"),
-        ).pack(anchor="w", padx=16, pady=(6, 10))
+        ).pack(anchor="w", padx=16, pady=(0, 10))
+
+        self._refresh_pw_ui()
 
         self._refresh_fb_ui()
 
@@ -938,6 +957,31 @@ class SettingsView(ctk.CTkFrame):
             text="Session cleared.", text_color=("gray50", "gray60")
         )
 
+    def _refresh_pw_ui(self):
+        from dialogs.playwright_install_dialog import playwright_ready
+        if playwright_ready():
+            self._pw_status_lbl.configure(
+                text="Playwright + Chromium installed.",
+                text_color="#3a9a4a",
+            )
+            self._pw_install_btn.configure(state="disabled", text="Installed")
+        else:
+            self._pw_status_lbl.configure(
+                text="Playwright not installed — required for Facebook login.",
+                text_color="#b87c1a",
+            )
+            self._pw_install_btn.configure(state="normal",
+                                           text="Install Playwright + Chromium")
+
+    def _install_playwright(self):
+        from dialogs.playwright_install_dialog import PlaywrightInstallDialog
+        dlg = PlaywrightInstallDialog(self.winfo_toplevel())
+        self.winfo_toplevel().wait_window(dlg)
+        self._refresh_pw_ui()
+        if dlg.result == "installed":
+            from integrations.config import set_value
+            set_value("playwright_dont_ask", True)
+
     def _save_fb_location(self):
         cfg.set_value("fb_default_location", self._fb_loc_entry.get().strip())
 
@@ -1052,4 +1096,5 @@ class SettingsView(ctk.CTkFrame):
         self._refresh_ui()
         self._refresh_gmail_ui()
         self._refresh_fb_ui()
+        self._refresh_pw_ui()
         self._refresh_shopify_ui()
