@@ -7,33 +7,40 @@ class DashboardView(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color="transparent")
         self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
         self._build()
 
     def _build(self):
+        # Scrollable container — fills the entire view
+        self._scroll = ctk.CTkScrollableFrame(self, fg_color="transparent")
+        self._scroll.grid(row=0, column=0, sticky="nsew")
+        self._scroll.grid_columnconfigure(0, weight=1)
+        f = self._scroll
+
         # Header
-        header = ctk.CTkLabel(
-            self, text="Dashboard",
+        ctk.CTkLabel(
+            f, text="Dashboard",
             font=ctk.CTkFont(size=22, weight="bold"),
             anchor="w",
-        )
-        header.grid(row=0, column=0, sticky="w", padx=24, pady=(20, 4))
+        ).grid(row=0, column=0, sticky="w", padx=24, pady=(20, 4))
 
         now = datetime.now()
         self._month_label = ctk.CTkLabel(
-            self, text=now.strftime("%B %Y"),
+            f, text=now.strftime("%B %Y"),
             text_color=("gray50", "gray60"), anchor="w",
         )
         self._month_label.grid(row=1, column=0, sticky="w", padx=24, pady=(0, 16))
 
         # Stat cards container
-        self._cards_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self._cards_frame = ctk.CTkFrame(f, fg_color="transparent")
         self._cards_frame.grid(row=2, column=0, sticky="ew", padx=20)
         for i in range(4):
             self._cards_frame.grid_columnconfigure(i, weight=1, uniform="card")
 
-        self._stock_cards  = {}
-        self._sales_labels = {}
-        self._recent_frame = None
+        self._types_frame   = None
+        self._fin_frame     = None
+        self._recent_frame  = None
+        self._recent_title_drawn = False
         self.refresh()
 
     # ----------------------------------------------------------------- helpers
@@ -50,12 +57,14 @@ class DashboardView(ctk.CTkFrame):
 
     def _section_title(self, row, text):
         ctk.CTkLabel(
-            self, text=text,
+            self._scroll, text=text,
             font=ctk.CTkFont(size=14, weight="bold"), anchor="w",
         ).grid(row=row, column=0, sticky="w", padx=24, pady=(16, 4))
 
     # ----------------------------------------------------------------- refresh
     def refresh(self):
+        f = self._scroll
+
         # Clear cards
         for w in self._cards_frame.winfo_children():
             w.destroy()
@@ -63,7 +72,6 @@ class DashboardView(ctk.CTkFrame):
         stock  = StockModel.get_dashboard_stats()
         now    = datetime.now()
         month  = SalesModel.get_monthly_stats(now.year, now.month)
-        totals = SalesModel.get_all_time_stats()
 
         # Row 1 — inventory counts
         self._stat_card(self._cards_frame, 0, "Total Stock",   str(stock["total"]))
@@ -72,9 +80,9 @@ class DashboardView(ctk.CTkFrame):
         self._stat_card(self._cards_frame, 3, "Sold (all)",    str(stock["sold"]),      "#6a3a9a")
 
         # Row 2 — type breakdown
-        if not hasattr(self, "_types_frame") or not self._types_frame.winfo_exists():
+        if not self._types_frame or not self._types_frame.winfo_exists():
             self._section_title(3, "Stock by Type")
-            self._types_frame = ctk.CTkFrame(self, fg_color="transparent")
+            self._types_frame = ctk.CTkFrame(f, fg_color="transparent")
             self._types_frame.grid(row=4, column=0, sticky="ew", padx=20)
             for i in range(3):
                 self._types_frame.grid_columnconfigure(i, weight=1, uniform="type")
@@ -88,9 +96,9 @@ class DashboardView(ctk.CTkFrame):
             self._stat_card(self._types_frame, i, f"{kind}s", str(cnt), colors[kind])
 
         # Row 3 — financials
-        if not hasattr(self, "_fin_frame") or not self._fin_frame.winfo_exists():
+        if not self._fin_frame or not self._fin_frame.winfo_exists():
             self._section_title(5, "Financials")
-            self._fin_frame = ctk.CTkFrame(self, fg_color="transparent")
+            self._fin_frame = ctk.CTkFrame(f, fg_color="transparent")
             self._fin_frame.grid(row=6, column=0, sticky="ew", padx=20)
             for i in range(4):
                 self._fin_frame.grid_columnconfigure(i, weight=1, uniform="fin")
@@ -99,7 +107,7 @@ class DashboardView(ctk.CTkFrame):
             w.destroy()
 
         self._stat_card(self._fin_frame, 0,
-                        f"Sales This Month", str(month["count"]))
+                        "Sales This Month",   str(month["count"]))
         self._stat_card(self._fin_frame, 1,
                         "Revenue This Month", f"${month['revenue']:.2f}", "#2a7a3a")
         self._stat_card(self._fin_frame, 2,
@@ -108,14 +116,14 @@ class DashboardView(ctk.CTkFrame):
                         "Available Value",    f"${stock['available_value']:.2f}", "#b87c1a")
 
         # Recent sales
-        if not hasattr(self, "_recent_title_drawn"):
+        if not self._recent_title_drawn:
             self._section_title(7, "Recent Sales")
             self._recent_title_drawn = True
 
         if self._recent_frame and self._recent_frame.winfo_exists():
             self._recent_frame.destroy()
 
-        self._recent_frame = ctk.CTkScrollableFrame(self, height=180)
+        self._recent_frame = ctk.CTkScrollableFrame(f, height=180)
         self._recent_frame.grid(row=8, column=0, sticky="ew", padx=20, pady=(0, 20))
         self._recent_frame.grid_columnconfigure((0, 1, 2, 3, 4), weight=1)
 

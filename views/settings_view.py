@@ -57,6 +57,11 @@ class SettingsView(ctk.CTkFrame):
     # ── General tab ───────────────────────────────────────────────────────
     def _build_general_tab(self, parent):
         parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+        scroll = ctk.CTkScrollableFrame(parent, fg_color="transparent")
+        scroll.grid(row=0, column=0, sticky="nsew")
+        scroll.grid_columnconfigure(0, weight=1)
+        parent = scroll
 
         s = self._section(parent, 0, "Pot Sizes")
         ctk.CTkLabel(
@@ -149,6 +154,11 @@ class SettingsView(ctk.CTkFrame):
     # ── Google Sheets tab ─────────────────────────────────────────────────
     def _build_sheets_tab(self, parent):
         parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+        scroll = ctk.CTkScrollableFrame(parent, fg_color="transparent")
+        scroll.grid(row=0, column=0, sticky="nsew")
+        scroll.grid_columnconfigure(0, weight=1)
+        parent = scroll
 
         # ── Step 1: Credentials ──────────────────────────────────────────
         s1 = self._section(parent, 0, "Step 1 — Google Cloud Credentials")
@@ -273,6 +283,11 @@ class SettingsView(ctk.CTkFrame):
     # ── Gmail Alerts tab ──────────────────────────────────────────────────
     def _build_gmail_tab(self, parent):
         parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+        scroll = ctk.CTkScrollableFrame(parent, fg_color="transparent")
+        scroll.grid(row=0, column=0, sticky="nsew")
+        scroll.grid_columnconfigure(0, weight=1)
+        parent = scroll
 
         # ── Scope status ─────────────────────────────────────────────────
         s1 = self._section(parent, 0, "Gmail Authorization")
@@ -501,6 +516,11 @@ class SettingsView(ctk.CTkFrame):
     # ── Shopify tab ───────────────────────────────────────────────────────
     def _build_shopify_tab(self, parent):
         parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+        scroll = ctk.CTkScrollableFrame(parent, fg_color="transparent")
+        scroll.grid(row=0, column=0, sticky="nsew")
+        scroll.grid_columnconfigure(0, weight=1)
+        parent = scroll
 
         # ── Setup instructions ────────────────────────────────────────────
         s0 = self._section(parent, 0, "How to Get an Access Token")
