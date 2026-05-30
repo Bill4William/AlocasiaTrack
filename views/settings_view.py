@@ -991,6 +991,7 @@ class SettingsView(ctk.CTkFrame):
                 text_color="#3a9a4a",
             )
             self._pw_install_btn.configure(state="disabled", text="Installed")
+            self._fb_login_btn.configure(state="normal")
         else:
             self._pw_status_lbl.configure(
                 text="Playwright not installed — required for Facebook login.",
@@ -998,11 +999,15 @@ class SettingsView(ctk.CTkFrame):
             )
             self._pw_install_btn.configure(state="normal",
                                            text="Install Playwright + Chromium")
+            self._fb_login_btn.configure(state="disabled")
 
     def _install_playwright(self):
-        from dialogs.playwright_install_dialog import PlaywrightInstallDialog
+        from dialogs.playwright_install_dialog import (
+            PlaywrightInstallDialog, _clear_playwright_ready_cache,
+        )
         dlg = PlaywrightInstallDialog(self.winfo_toplevel())
         self.winfo_toplevel().wait_window(dlg)
+        _clear_playwright_ready_cache()   # force re-detection now that install may have changed
         self._refresh_pw_ui()
         if dlg.result == "installed":
             from integrations.config import set_value

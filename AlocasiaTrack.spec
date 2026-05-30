@@ -36,6 +36,8 @@ a = Analysis(
         (os.path.join(project_root, "docs"), "docs"),
         # Bundle icon so app.py can call iconbitmap() at runtime
         (os.path.join(project_root, "icon.ico"), "."),
+        # Playwright worker — called via system Python when running as bundled exe
+        (os.path.join(project_root, "scripts", "facebook_worker.py"), "scripts"),
     ],
     hiddenimports=ctk_hiddenimports + [
         # Google auth / API

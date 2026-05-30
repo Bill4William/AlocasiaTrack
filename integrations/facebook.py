@@ -14,6 +14,10 @@ Public API (all non-blocking — run in daemon threads, fire callbacks):
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
+import tempfile
 import threading
 from pathlib import Path
 from typing import Callable
@@ -38,6 +42,60 @@ CONDITION_MAP = {
     "Fair":       "Used - Fair",
     "Needs TLC":  "Used - Poor",
 }
+
+
+# ------------------------------------------------------------------ bundle helpers
+
+def _is_bundled() -> bool:
+    """True when running from a PyInstaller bundle (exe/app)."""
+    return hasattr(sys, "_MEIPASS")
+
+
+def _get_worker_script() -> str:
+    """Return the absolute path to scripts/facebook_worker.py."""
+    if _is_bundled():
+        # Included in the bundle via AlocasiaTrack.spec datas
+        return os.path.join(sys._MEIPASS, "scripts", "facebook_worker.py")
+    # Running from source
+    return os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "scripts", "facebook_worker.py",
+    )
+
+
+def _system_python() -> str:
+    """Return a usable Python interpreter for running the worker script."""
+    from dialogs.playwright_install_dialog import _find_python
+    return _find_python()
+
+
+def _run_subprocess_worker(args: list[str], on_done: Callable[[str], None],
+                           on_error: Callable[[str], None],
+                           timeout: int = 600):
+    """
+    Run scripts/facebook_worker.py via the system Python.
+    Calls on_done(stdout) on exit 0, on_error(stderr) on exit ≠ 0.
+    Runs in a daemon thread so it never blocks the UI.
+    """
+    def _worker():
+        try:
+            python = _system_python()
+            script = _get_worker_script()
+            proc = subprocess.run(
+                [python, script] + args,
+                capture_output=True, text=True, timeout=timeout,
+            )
+            if proc.returncode == 0:
+                on_done((proc.stdout or "").strip() or "Done.")
+            else:
+                msg = (proc.stderr or proc.stdout or "Unknown error").strip()
+                on_error(msg)
+        except subprocess.TimeoutExpired:
+            on_error("Timed out waiting for the browser to close.")
+        except Exception as exc:
+            on_error(str(exc))
+
+    threading.Thread(target=_worker, daemon=True).start()
 
 
 # ------------------------------------------------------------------ session
@@ -105,6 +163,14 @@ def connect(on_done: Callable[[str], None],
             on_error: Callable[[str], None]):
     """Open a visible browser for manual FB login, then save the session."""
 
+    if _is_bundled():
+        # Running as installed exe — playwright not in bundle, use system Python
+        _run_subprocess_worker(
+            ["connect", str(SESSION_PATH)],
+            on_done, on_error, timeout=600,
+        )
+        return
+
     def _worker():
         try:
             sync_playwright, PWTimeout = _imports()
@@ -117,7 +183,6 @@ def connect(on_done: Callable[[str], None],
                 page.goto("https://www.facebook.com/", wait_until="domcontentloaded")
 
                 if not _is_logged_in(page):
-                    # Let user log in manually
                     _wait_for_login(page)
 
                 _save_cookies(ctx)
@@ -141,6 +206,30 @@ def create_listing(listing_data: dict,
     on_done receives the listing URL (or the final page URL if capture fails).
     The browser stays open briefly after publish so cookies can be saved.
     """
+
+    if _is_bundled():
+        # Write listing data to a temp JSON file for the worker script
+        def _bundled_worker():
+            tmp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(
+                    mode="w", suffix=".json", delete=False, encoding="utf-8"
+                ) as f:
+                    json.dump(listing_data, f)
+                    tmp_path = f.name
+                _run_subprocess_worker(
+                    ["create_listing", str(SESSION_PATH), tmp_path],
+                    on_done, on_error, timeout=300,
+                )
+            except Exception as exc:
+                if tmp_path:
+                    try:
+                        os.unlink(tmp_path)
+                    except Exception:
+                        pass
+                on_error(str(exc))
+        threading.Thread(target=_bundled_worker, daemon=True).start()
+        return
 
     def _worker():
         try:

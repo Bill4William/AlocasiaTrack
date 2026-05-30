@@ -12,6 +12,15 @@ import threading
 
 import customtkinter as ctk
 
+# Cache so the subprocess check (bundled mode) only runs once per session.
+# Reset to None by calling _clear_playwright_ready_cache() after installation.
+_pw_ready_cache: "bool | None" = None
+
+
+def _clear_playwright_ready_cache():
+    global _pw_ready_cache
+    _pw_ready_cache = None
+
 
 # ── Python executable resolution ─────────────────────────────────────────────
 
@@ -45,18 +54,51 @@ def _find_python() -> str:
 # ── detection ────────────────────────────────────────────────────────────────
 
 def playwright_ready() -> bool:
-    """Return True only when sync_playwright is importable AND Chromium is present."""
-    # Use the same import that the integration actually uses at runtime
+    """Return True only when playwright is importable AND Chromium is present.
+
+    When running from the PyInstaller bundle, playwright cannot be imported
+    directly (it is excluded from the bundle by design).  In that case we
+    check via a subprocess call to the host system's Python so the detection
+    still works correctly after the user has installed playwright.
+    """
+    global _pw_ready_cache
+    if _pw_ready_cache is not None:
+        return _pw_ready_cache
+    _pw_ready_cache = _playwright_ready_uncached()
+    return _pw_ready_cache
+
+
+def _playwright_ready_uncached() -> bool:
+    # ── 1. Check the playwright Python package is importable ─────────────────
+    import_ok = False
+
+    # Direct import — always works when running from source.
     try:
         from playwright.sync_api import sync_playwright  # noqa: F401
+        import_ok = True
     except Exception:
+        pass
+
+    # When bundled and direct import failed, ask the system Python instead.
+    if not import_ok and hasattr(sys, "_MEIPASS"):
+        try:
+            python = _find_python()
+            result = subprocess.run(
+                [python, "-c", "from playwright.sync_api import sync_playwright"],
+                capture_output=True,
+                timeout=15,
+            )
+            import_ok = result.returncode == 0
+        except Exception:
+            pass
+
+    if not import_ok:
         return False
 
-    # Glob known Chromium install paths — fast, no subprocess needed.
-    # Base dir can be overridden by PLAYWRIGHT_BROWSERS_PATH env var.
+    # ── 2. Check Chromium binary exists ──────────────────────────────────────
     local_app = os.environ.get("LOCALAPPDATA", "")
-    home = os.path.expanduser("~")
-    pw_base = os.environ.get(
+    home      = os.path.expanduser("~")
+    pw_base   = os.environ.get(
         "PLAYWRIGHT_BROWSERS_PATH",
         os.path.join(local_app, "ms-playwright"),
     )
@@ -198,6 +240,7 @@ class PlaywrightInstallDialog(ctk.CTkToplevel):
             self.after(0, lambda e=str(exc): self._on_error(e))
 
     def _on_success(self):
+        _clear_playwright_ready_cache()   # force re-detection next check
         self._bar.stop()
         self._bar.configure(mode="determinate")
         self._bar.set(1)
