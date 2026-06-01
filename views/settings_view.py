@@ -45,6 +45,7 @@ class SettingsView(ctk.CTkFrame):
         tabs.add("Gmail Alerts")
         tabs.add("Facebook")
         tabs.add("Shopify")
+        tabs.add("Web App")
         tabs.add("About")
 
         self._build_general_tab(tabs.tab("General"))
@@ -52,6 +53,7 @@ class SettingsView(ctk.CTkFrame):
         self._build_gmail_tab(tabs.tab("Gmail Alerts"))
         self._build_facebook_tab(tabs.tab("Facebook"))
         self._build_shopify_tab(tabs.tab("Shopify"))
+        self._build_webapp_tab(tabs.tab("Web App"))
         self._build_about_tab(tabs.tab("About"))
 
     # ── General tab ───────────────────────────────────────────────────────
@@ -619,6 +621,181 @@ class SettingsView(ctk.CTkFrame):
         )
 
         self._refresh_shopify_ui()
+
+    # ── Web App tab ───────────────────────────────────────────────────────────
+    def _build_webapp_tab(self, parent):
+        import webbrowser as _wb
+        parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+        scroll = ctk.CTkScrollableFrame(parent, fg_color="transparent")
+        scroll.grid(row=0, column=0, sticky="nsew")
+        scroll.grid_columnconfigure(0, weight=1)
+        parent = scroll
+
+        s0 = self._section(parent, 0, "Mobile / Web Access")
+        ctk.CTkLabel(
+            s0,
+            text=(
+                "Run the built-in web server to access AlocasiaTrack from any\n"
+                "device on your local network — phone, tablet, or another PC.\n\n"
+                "Open the address shown below in any browser. All data is shared\n"
+                "with the desktop app in real time."
+            ),
+            justify="left", font=ctk.CTkFont(size=12),
+            text_color=("gray40", "gray70"),
+        ).pack(anchor="w", padx=16, pady=(6, 10))
+
+        s1 = self._section(parent, 1, "Server Status")
+
+        self._web_status_lbl = ctk.CTkLabel(
+            s1, text="", font=ctk.CTkFont(size=13), anchor="w"
+        )
+        self._web_status_lbl.pack(anchor="w", padx=16, pady=(6, 4))
+
+        self._web_url_lbl = ctk.CTkLabel(
+            s1, text="", font=ctk.CTkFont(size=12),
+            text_color=("#1f6aa5", "#4da6ff"), anchor="w", cursor="hand2",
+        )
+        self._web_url_lbl.pack(anchor="w", padx=16, pady=(0, 4))
+        self._web_url_lbl.bind(
+            "<Button-1>",
+            lambda _: _wb.open(self._web_url_lbl.cget("text"))
+            if self._web_url_lbl.cget("text").startswith("http") else None
+        )
+
+        btn_row = ctk.CTkFrame(s1, fg_color="transparent")
+        btn_row.pack(anchor="w", padx=16, pady=(0, 12))
+
+        self._web_toggle_btn = ctk.CTkButton(
+            btn_row, text="Start Web Server", width=160,
+            command=self._toggle_web_server,
+        )
+        self._web_toggle_btn.pack(side="left", padx=(0, 8))
+
+        self._web_open_btn = ctk.CTkButton(
+            btn_row, text="Open in Browser", width=140,
+            fg_color="gray40", hover_color="gray30",
+            command=lambda: _wb.open(self._web_url_lbl.cget("text"))
+            if self._web_url_lbl.cget("text").startswith("http") else None,
+            state="disabled",
+        )
+        self._web_open_btn.pack(side="left", padx=(0, 8))
+
+        self._web_copy_btn = ctk.CTkButton(
+            btn_row, text="Copy URL", width=90,
+            fg_color="gray40", hover_color="gray30",
+            command=self._copy_web_url, state="disabled",
+        )
+        self._web_copy_btn.pack(side="left")
+
+        s2 = self._section(parent, 2, "Configuration")
+
+        ctk.CTkLabel(s2, text="Port  (default: 5000)", anchor="w").pack(
+            anchor="w", padx=16, pady=(6, 2)
+        )
+        port_row = ctk.CTkFrame(s2, fg_color="transparent")
+        port_row.pack(fill="x", padx=16, pady=(0, 6))
+        self._web_port_entry = ctk.CTkEntry(port_row, width=90)
+        self._web_port_entry.insert(0, str(cfg.get("web_port") or 5000))
+        self._web_port_entry.pack(side="left", padx=(0, 8))
+        ctk.CTkButton(port_row, text="Save & Restart", width=130,
+                      command=self._save_web_port).pack(side="left")
+
+        ctk.CTkLabel(
+            s2,
+            text="Change port if 5000 conflicts with another app on your network.\n"
+                 "Valid range: 1024 – 65535",
+            font=ctk.CTkFont(size=11), text_color=("gray45", "gray60"), anchor="w",
+        ).pack(anchor="w", padx=16, pady=(0, 4))
+
+        self._web_autostart_var = ctk.BooleanVar(value=bool(cfg.get("web_autostart")))
+        ctk.CTkCheckBox(
+            s2,
+            text="Start web server automatically when the app launches",
+            variable=self._web_autostart_var,
+            command=lambda: cfg.set_value("web_autostart", self._web_autostart_var.get()),
+        ).pack(anchor="w", padx=16, pady=(4, 12))
+
+        s3 = self._section(parent, 3, "Using a Custom Address")
+        ctk.CTkLabel(
+            s3,
+            text=(
+                "By default, the server is at your PC's local IP (shown above).\n"
+                "To use a memorable name like  alocasia.local  instead:\n\n"
+                "  1. Log in to your router's admin page\n"
+                "  2. Under 'Static DHCP' or 'Reserved IP', assign a fixed\n"
+                "     IP address to this PC\n"
+                "  3. Under 'Local DNS' or 'Hostnames', add:\n"
+                "         alocasia.local  →  <your PC's IP>\n\n"
+                "All devices on your Wi-Fi can then use\n"
+                "http://alocasia.local:PORT  as a permanent bookmark."
+            ),
+            justify="left", font=ctk.CTkFont(size=12),
+            text_color=("gray40", "gray70"),
+        ).pack(anchor="w", padx=16, pady=(6, 12))
+
+        self._refresh_web_ui()
+
+    def _refresh_web_ui(self):
+        try:
+            from web_app.server import is_running, get_url
+            port = int(cfg.get("web_port") or 5000)
+            if is_running():
+                self._web_status_lbl.configure(text="● Running", text_color="#3a9a4a")
+                self._web_url_lbl.configure(text=get_url(port))
+                self._web_toggle_btn.configure(
+                    text="Stop Web Server",
+                    fg_color="#6a2020", hover_color="#4a1010",
+                )
+                self._web_open_btn.configure(state="normal")
+                self._web_copy_btn.configure(state="normal")
+            else:
+                self._web_status_lbl.configure(
+                    text="○ Stopped", text_color=("gray50", "gray60")
+                )
+                self._web_url_lbl.configure(text="")
+                self._web_toggle_btn.configure(
+                    text="Start Web Server",
+                    fg_color=("#1f6aa5", "#1f6aa5"),
+                    hover_color=("#144d7a", "#144d7a"),
+                )
+                self._web_open_btn.configure(state="disabled")
+                self._web_copy_btn.configure(state="disabled")
+        except Exception:
+            pass
+
+    def _toggle_web_server(self):
+        from web_app.server import is_running, start, stop
+        port = int(cfg.get("web_port") or 5000)
+        if is_running():
+            stop()
+        else:
+            start(port)
+        self.after(400, self._refresh_web_ui)
+
+    def _save_web_port(self):
+        from web_app.server import is_running, stop, start
+        try:
+            port = int(self._web_port_entry.get().strip())
+            assert 1024 <= port <= 65535
+        except Exception:
+            self._web_status_lbl.configure(
+                text="Invalid port — enter 1024–65535", text_color="#c05020"
+            )
+            return
+        cfg.set_value("web_port", port)
+        if is_running():
+            stop()
+            self.after(200, lambda: start(port))
+        self.after(600, self._refresh_web_ui)
+
+    def _copy_web_url(self):
+        url = self._web_url_lbl.cget("text")
+        if url.startswith("http"):
+            self.clipboard_clear()
+            self.clipboard_append(url)
+            self._web_copy_btn.configure(text="Copied!")
+            self.after(2000, lambda: self._web_copy_btn.configure(text="Copy URL"))
 
     # ── About tab ─────────────────────────────────────────────────────────
     def _build_about_tab(self, parent):

@@ -83,14 +83,28 @@ def stock_list():
     item_type  = request.args.get("type")
     status     = request.args.get("status")
     species_id = request.args.get("species_id", type=int)
-    items      = StockModel.get_all(item_type=item_type, status=status,
-                                    species_id=species_id)
-    species    = SpeciesModel.get_all()
+    q          = request.args.get("q", "").strip().lower()
+
+    items = StockModel.get_all(item_type=item_type, status=status,
+                               species_id=species_id)
+
+    if q:
+        items = [
+            i for i in items
+            if q in (i["sku"] or "").lower()
+            or q in (i["species_name"] or "").lower()
+            or q in (i["species_common_name"] or "").lower()
+            or q in (i["notes"] or "").lower()
+            or q in (i["growth_stage"] or "").lower()
+            or q in (i["condition"] or "").lower()
+        ]
+
+    species = SpeciesModel.get_all()
     return render_template(
         "stock.html",
         items=items, species=species,
         filter_type=item_type, filter_status=status,
-        filter_species=species_id,
+        filter_species=species_id, query=q,
     )
 
 
@@ -308,6 +322,28 @@ def plants_add():
 
 
 # ════════════════════════════════════════════════════════════════════
+#  PHOTOS
+# ════════════════════════════════════════════════════════════════════
+
+@app.route("/photos/<int:stock_id>/<int:index>")
+def serve_photo(stock_id, index):
+    """Serve a local photo file for a stock item."""
+    from flask import send_file
+    item = StockModel.get_by_id(stock_id)
+    if not item:
+        abort(404)
+    try:
+        paths = json.loads(item["photo_paths"] or "[]")
+        entry = paths[index]
+        local = entry["local"] if isinstance(entry, dict) else str(entry)
+        if Path(local).exists():
+            return send_file(local)
+    except Exception:
+        pass
+    abort(404)
+
+
+# ════════════════════════════════════════════════════════════════════
 #  JSON API  (used by dynamic bits of the UI)
 # ════════════════════════════════════════════════════════════════════
 
@@ -323,3 +359,20 @@ def api_stats():
 def api_growth_stages():
     item_type = request.args.get("type", "Plant")
     return jsonify(StockModel.GROWTH_STAGES.get(item_type, []))
+
+
+@app.route("/api/server-info")
+def api_server_info():
+    """Return LAN address info — used by the desktop settings panel."""
+    import socket
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        lan_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        lan_ip = "127.0.0.1"
+    from flask import request as req
+    port = req.host.split(":")[-1] if ":" in req.host else "5000"
+    return jsonify(lan_ip=lan_ip, port=port,
+                   url=f"http://{lan_ip}:{port}")

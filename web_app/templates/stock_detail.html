@@ -9,6 +9,19 @@
 
 {% block content %}
 
+<!-- Photos -->
+{% set photo_paths = item.photo_paths | default('[]') %}
+{% if photo_paths and photo_paths != '[]' %}
+  {# parse inline via JS — Jinja can't parse JSON reliably so we pass it as a data attr #}
+  <div id="photo-strip" class="mb-3"
+       data-id="{{ item.id }}"
+       data-paths="{{ photo_paths | e }}">
+    <div class="d-flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none" id="photo-row">
+      <!-- populated by JS below -->
+    </div>
+  </div>
+{% endif %}
+
 <!-- Status badge + species -->
 <div class="mb-3">
   <span class="badge rounded-pill badge-{{ item.status.lower() }} me-2"
@@ -84,6 +97,20 @@
 </div>
 
 
+<!-- ── Photo lightbox modal ──────────────────────────────────────── -->
+<div class="modal fade" id="photoModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background:#000;border:none">
+      <div class="modal-header" style="border:none;padding:8px 12px">
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center p-2">
+        <img id="lightbox-img" src="" style="max-width:100%;max-height:70vh;border-radius:8px">
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── Record Sale modal ────────────────────────────────────────── -->
 <div class="modal fade" id="saleModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
@@ -151,4 +178,42 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+/* Build photo strip and wire up lightbox */
+(function () {
+  const strip = document.getElementById('photo-strip');
+  if (!strip) return;
+  const id  = strip.dataset.id;
+  const row = document.getElementById('photo-row');
+  let paths;
+  try { paths = JSON.parse(strip.dataset.paths); } catch { return; }
+  if (!Array.isArray(paths) || paths.length === 0) {
+    strip.style.display = 'none'; return;
+  }
+
+  const modal = new bootstrap.Modal(document.getElementById('photoModal'));
+  const lbImg = document.getElementById('lightbox-img');
+
+  paths.forEach((entry, i) => {
+    const local = typeof entry === 'object' ? entry.local : entry;
+    if (!local) return;
+    const src = `/photos/${id}/${i}`;
+
+    const thumb = document.createElement('div');
+    thumb.style.cssText = 'flex:0 0 auto;border-radius:8px;overflow:hidden;width:120px;height:120px;background:#222;cursor:pointer';
+    const img = document.createElement('img');
+    img.src = src;
+    img.style.cssText = 'width:120px;height:120px;object-fit:cover;display:block';
+    img.onerror = () => { thumb.style.display = 'none'; };
+    thumb.addEventListener('click', () => { lbImg.src = src; modal.show(); });
+    thumb.appendChild(img);
+    row.appendChild(thumb);
+  });
+
+  if (row.children.length === 0) strip.style.display = 'none';
+})();
+</script>
 {% endblock %}

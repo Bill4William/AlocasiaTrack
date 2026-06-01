@@ -4,6 +4,27 @@
 
 {% block content %}
 
+<!-- Search bar -->
+<form method="get" action="{{ url_for('stock_list') }}" class="mb-3">
+  <!-- preserve active filters when searching -->
+  {% if filter_type %}<input type="hidden" name="type" value="{{ filter_type }}">{% endif %}
+  {% if filter_status %}<input type="hidden" name="status" value="{{ filter_status }}">{% endif %}
+  {% if filter_species %}<input type="hidden" name="species_id" value="{{ filter_species }}">{% endif %}
+  <div class="input-group">
+    <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">
+      <i class="bi bi-search"></i>
+    </span>
+    <input type="search" name="q" class="form-control" placeholder="Search SKU, species, notes…"
+           value="{{ query }}" autocomplete="off">
+    {% if query %}
+    <a href="{{ url_for('stock_list', type=filter_type, status=filter_status, species_id=filter_species) }}"
+       class="btn" style="background:#252525;border:1px solid var(--border);color:var(--muted)">
+      <i class="bi bi-x-lg"></i>
+    </a>
+    {% endif %}
+  </div>
+</form>
+
 <!-- Filter chips -->
 <div class="chip-row mb-3">
   <a href="{{ url_for('stock_list') }}"
