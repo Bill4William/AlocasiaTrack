@@ -9,6 +9,26 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# ── Admin check ───────────────────────────────────────────────────────────────
+# PyInstaller 6.x warns when run as Administrator; PyInstaller 7.x will block
+# it entirely.  Catch this early with a clear message.
+$currentPrincipal = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
+if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Warning @"
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  You are running this script as Administrator.                          │
+  │  PyInstaller does not need (or want) admin privileges, and PyInstaller  │
+  │  7.0 will BLOCK admin builds entirely.                                  │
+  │                                                                         │
+  │  Please close this terminal and reopen a normal (non-admin) PowerShell  │
+  │  window, then run  .\build.ps1  again.                                  │
+  └─────────────────────────────────────────────────────────────────────────┘
+"@
+    # Continue with a warning rather than aborting so existing workflows
+    # aren't hard-broken — but the message makes it clear this must be fixed.
+}
+
 $ProjectDir = $PSScriptRoot
 Set-Location $ProjectDir
 

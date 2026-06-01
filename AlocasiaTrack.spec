@@ -68,7 +68,14 @@ a = Analysis(
     # Playwright is an *optional* integration — it's large (~150 MB of browser
     # binaries) and cannot be bundled.  Users who want Facebook integration
     # must run  `playwright install chromium`  after installing the app.
-    excludes=["playwright", "pytest", "setuptools", "pip", "IPython"],
+    #
+    # pycparser 3.x removed the legacy lextab/yacctab generated-table files;
+    # the PyInstaller contrib hook still tries to find them and emits WARNINGs.
+    # Listing them here tells PyInstaller to stop looking.
+    excludes=[
+        "playwright", "pytest", "setuptools", "pip", "IPython",
+        "pycparser.lextab", "pycparser.yacctab",
+    ],
     noarchive=False,
 )
 
