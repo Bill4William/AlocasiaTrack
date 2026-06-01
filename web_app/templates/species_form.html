@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% set back_url = url_for('species_list') %}
+{% block title %}{{ title }} — AlocasiaTrack{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<form method="post">
+  <div class="mb-3">
+    <label class="form-label">Scientific Name *</label>
+    <input type="text" name="name" class="form-control" required
+           value="{{ item.name if item else '' }}" placeholder="e.g. Amazonica">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Common Name</label>
+    <input type="text" name="common_name" class="form-control"
+           value="{{ item.common_name if item else '' }}" placeholder="e.g. Polly">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Care Level</label>
+    <select name="care_level" class="form-select">
+      {% for cl in ["Easy","Moderate","Difficult","Expert"] %}
+      <option {{ 'selected' if item and item.care_level == cl else ('selected' if not item and cl == 'Moderate' else '') }}>{{ cl }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="row g-2 mb-3">
+    <div class="col-6">
+      <label class="form-label">Min Price</label>
+      <div class="input-group">
+        <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">$</span>
+        <input type="number" step="0.01" name="price_min" class="form-control"
+               value="{{ item.price_min or '' if item else '' }}">
+      </div>
+    </div>
+    <div class="col-6">
+      <label class="form-label">Max Price</label>
+      <div class="input-group">
+        <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">$</span>
+        <input type="number" step="0.01" name="price_max" class="form-control"
+               value="{{ item.price_max or '' if item else '' }}">
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Notes</label>
+    <textarea name="notes" class="form-control" rows="3">{{ item.notes or '' if item else '' }}</textarea>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">
+    <i class="bi bi-check-lg me-1"></i> {{ 'Save Changes' if item else 'Add Species' }}
+  </button>
+  {% if item %}
+  <form method="post" action="{{ url_for('species_delete', id=item.id) }}"
+        onsubmit="return confirm('Delete {{ item.name }}?')" class="mt-2">
+    <button type="submit" class="btn btn-sm w-100"
+            style="border:1px solid #4a1a1a;color:#c05050;background:transparent">
+      <i class="bi bi-trash me-1"></i> Delete Species
+    </button>
+  </form>
+  {% endif %}
+</form>
+{% endblock %}

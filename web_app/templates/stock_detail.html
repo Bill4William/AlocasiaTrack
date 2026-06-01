@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% set back_url = url_for('stock_list') %}
+{% block title %}{{ item.sku }} — AlocasiaTrack{% endblock %}
+{% block page_title %}{{ item.sku }}{% endblock %}
+
+{% block topbar_right %}
+  <a href="{{ url_for('stock_edit', id=item.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+{% endblock %}
+
+{% block content %}
+
+<!-- Status badge + species -->
+<div class="mb-3">
+  <span class="badge rounded-pill badge-{{ item.status.lower() }} me-2"
+        style="font-size:13px;padding:6px 12px">{{ item.status }}</span>
+  <span class="fw-semibold" style="font-size:18px">{{ item.species_name or "Unknown" }}</span>
+  {% if item.species_common_name %}
+    <div class="text-muted-custom" style="font-size:13px">{{ item.species_common_name }}</div>
+  {% endif %}
+</div>
+
+<!-- Detail card -->
+<div class="card p-3 mb-3">
+  {% set rows = [
+    ("Type",         item.item_type),
+    ("Stage",        item.growth_stage),
+    ("Condition",    item.condition),
+    ("Pot size",     item.pot_size),
+    ("Asking price", item.asking_price | money if item.asking_price else "—"),
+    ("Cost basis",   item.cost_basis | money if item.cost_basis else "—"),
+    ("Parent plant", item.parent_nickname),
+    ("Date added",   item.date_added | date_short),
+  ] %}
+  {% for label, val in rows %}
+    {% if val and val != "—" %}
+    <div class="d-flex justify-content-between py-2"
+         style="border-bottom:1px solid var(--border)">
+      <span class="text-muted-custom" style="font-size:13px">{{ label }}</span>
+      <span class="fw-semibold" style="font-size:14px">{{ val }}</span>
+    </div>
+    {% endif %}
+  {% endfor %}
+  {% if item.notes %}
+  <div class="pt-2">
+    <div class="text-muted-custom" style="font-size:12px;margin-bottom:4px">Notes</div>
+    <div style="font-size:14px">{{ item.notes }}</div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Quick status buttons -->
+<p class="section-title">Change Status</p>
+<div class="d-flex flex-wrap gap-2 mb-3">
+  {% for s in StockModel.STATUSES %}
+    {% if s != item.status %}
+    <form method="post" action="{{ url_for('stock_status', id=item.id) }}">
+      <input type="hidden" name="status" value="{{ s }}">
+      <button type="submit" class="btn btn-sm"
+              style="background:var(--card-bg);border:1px solid var(--border);color:var(--text)">
+        → {{ s }}
+      </button>
+    </form>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<!-- Record Sale button -->
+{% if item.status not in ('Sold','Died','Traded') %}
+<p class="section-title">Actions</p>
+<button class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#saleModal">
+  <i class="bi bi-cash-coin me-1"></i> Record Sale
+</button>
+{% endif %}
+
+<!-- Danger zone -->
+<div class="mt-4">
+  <form method="post" action="{{ url_for('stock_delete', id=item.id) }}"
+        onsubmit="return confirm('Delete {{ item.sku }}? This cannot be undone.')">
+    <button type="submit" class="btn btn-sm w-100"
+            style="border:1px solid #4a1a1a;color:#c05050;background:transparent">
+      <i class="bi bi-trash me-1"></i> Delete Item
+    </button>
+  </form>
+</div>
+
+
+<!-- ── Record Sale modal ────────────────────────────────────────── -->
+<div class="modal fade" id="saleModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Record Sale — {{ item.sku }}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="{{ url_for('record_sale', id=item.id) }}">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Sale Price *</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">$</span>
+              <input type="number" step="0.01" name="sale_price" class="form-control"
+                     value="{{ item.asking_price or '' }}" required>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label">Sale Date</label>
+              <input type="date" name="sale_date" class="form-control"
+                     value="{{ now.strftime('%Y-%m-%d') }}">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Platform</label>
+              <select name="platform" class="form-select">
+                <option>Facebook</option><option>Shopify</option>
+                <option>Local</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label">Shipping Method</label>
+              <select name="shipping_method" class="form-select">
+                <option>Local Pickup</option><option>Shipped</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label">Shipping Cost</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">$</span>
+                <input type="number" step="0.01" name="shipping_cost" class="form-control" value="0">
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Buyer Name</label>
+            <input type="text" name="buyer_name" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Notes</label>
+            <textarea name="notes" class="form-control" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check-lg me-1"></i> Record Sale
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

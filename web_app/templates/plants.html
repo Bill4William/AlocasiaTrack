@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Mother Plants — AlocasiaTrack{% endblock %}
+{% block page_title %}Mother Plants{% endblock %}
+
+{% block content %}
+<p class="text-muted-custom mb-3" style="font-size:13px">{{ items|length }} plant{{ 's' if items|length != 1 }}</p>
+
+{% if items %}
+  {% for pl in items %}
+  <div class="list-row mb-2">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <div class="fw-semibold">{{ pl.nickname or 'Unnamed' }}</div>
+        <div class="text-muted-custom" style="font-size:12px">
+          {{ pl.species_name or '—' }}
+          {% if pl.pot_size %}&middot; {{ pl.pot_size }}{% endif %}
+          {% if pl.health_status %}&middot; {{ pl.health_status }}{% endif %}
+        </div>
+        {% if pl.location %}
+          <div class="text-muted-custom" style="font-size:12px">
+            <i class="bi bi-geo-alt"></i> {{ pl.location }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="text-muted-custom" style="font-size:12px">
+        {{ pl.acquired_date | date_short }}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="text-center text-muted-custom py-5">
+    <i class="bi bi-tree-fill" style="font-size:48px;opacity:.3"></i>
+    <p class="mt-2">No mother plants yet.</p>
+  </div>
+{% endif %}
+
+<a href="{{ url_for('plants_add') }}" class="fab" title="Add plant">
+  <i class="bi bi-plus-lg"></i>
+</a>
+{% endblock %}

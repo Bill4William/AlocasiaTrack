@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Sales — AlocasiaTrack{% endblock %}
+{% block page_title %}Sales{% endblock %}
+
+{% block content %}
+
+<!-- Summary cards -->
+<div class="row g-2 mb-3">
+  <div class="col-4">
+    <div class="stat-card">
+      <div class="label">This Month</div>
+      <div class="value" style="font-size:18px">{{ month.count }}</div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="stat-card">
+      <div class="label">Revenue</div>
+      <div class="value text-money" style="font-size:16px">{{ month.revenue | money }}</div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="stat-card">
+      <div class="label">Profit</div>
+      <div class="value text-money" style="font-size:16px">{{ month.profit | money }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="card p-3 mb-3">
+  <div class="text-muted-custom" style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">All Time</div>
+  <div class="d-flex gap-4">
+    <div>
+      <div style="font-size:11px;color:var(--muted)">Sales</div>
+      <div class="fw-bold">{{ alltime.total_sales }}</div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--muted)">Revenue</div>
+      <div class="fw-bold text-money">{{ alltime.total_revenue | money }}</div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--muted)">Profit</div>
+      <div class="fw-bold text-money">{{ alltime.total_profit | money }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Sales list -->
+<p class="section-title">All Sales ({{ sales|length }})</p>
+
+{% if sales %}
+  {% for sale in sales %}
+  <div class="list-row mb-2">
+    <div class="d-flex justify-content-between">
+      <div>
+        <div class="fw-semibold">{{ sale.species_name or "Unknown" }}</div>
+        <div class="text-muted-custom" style="font-size:12px">
+          {{ sale.sku or "—" }} &middot;
+          {{ sale.item_type or "—" }} &middot;
+          {{ sale.sale_date | date_short }}
+        </div>
+        {% if sale.platform %}
+          <div class="text-muted-custom" style="font-size:12px">via {{ sale.platform }}</div>
+        {% endif %}
+        {% if sale.buyer_name %}
+          <div class="text-muted-custom" style="font-size:12px">{{ sale.buyer_name }}</div>
+        {% endif %}
+      </div>
+      <div class="text-end">
+        <div class="text-money fw-bold">{{ sale.sale_price | money }}</div>
+        {% if sale.profit is not none %}
+          <div style="font-size:12px;color:var(--muted)">profit</div>
+          <div style="font-size:13px" class="{{ 'text-money' if sale.profit >= 0 else 'text-danger' }}">
+            {{ sale.profit | money }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="text-center text-muted-custom py-5">
+    <i class="bi bi-cash-stack" style="font-size:48px;opacity:.3"></i>
+    <p class="mt-2">No sales yet.<br>Record a sale from any stock item's detail page.</p>
+  </div>
+{% endif %}
+
+{% endblock %}

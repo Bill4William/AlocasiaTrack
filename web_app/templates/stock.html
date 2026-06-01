@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Stock — AlocasiaTrack{% endblock %}
+{% block page_title %}Stock{% endblock %}
+
+{% block content %}
+
+<!-- Filter chips -->
+<div class="chip-row mb-3">
+  <a href="{{ url_for('stock_list') }}"
+     class="filter-chip {{ 'active' if not filter_type and not filter_status }}">All</a>
+
+  {% for t in ["Plant","Pup","Corm"] %}
+  <a href="{{ url_for('stock_list', type=t) }}"
+     class="filter-chip {{ 'active' if filter_type == t }}">{{ t }}s</a>
+  {% endfor %}
+
+  <span style="color:var(--border);padding:0 2px">|</span>
+
+  {% for s in ["Available","Listed","Sold","Traded","Died"] %}
+  <a href="{{ url_for('stock_list', status=s) }}"
+     class="filter-chip {{ 'active' if filter_status == s }}">{{ s }}</a>
+  {% endfor %}
+</div>
+
+<!-- Species filter -->
+{% if species %}
+<div class="chip-row mb-3">
+  <a href="{{ url_for('stock_list', type=filter_type, status=filter_status) }}"
+     class="filter-chip {{ 'active' if not filter_species }}">Any species</a>
+  {% for sp in species %}
+  <a href="{{ url_for('stock_list', type=filter_type, status=filter_status, species_id=sp.id) }}"
+     class="filter-chip {{ 'active' if filter_species == sp.id }}">{{ sp.name }}</a>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- Count -->
+<p class="text-muted-custom mb-2" style="font-size:13px">{{ items|length }} item{{ 's' if items|length != 1 }}</p>
+
+<!-- Stock list -->
+{% if items %}
+  {% for item in items %}
+  <a href="{{ url_for('stock_detail', id=item.id) }}" class="list-row">
+    <div class="d-flex justify-content-between align-items-start">
+      <div style="flex:1; min-width:0">
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="fw-semibold">{{ item.species_name or "Unknown" }}</span>
+          <span class="badge rounded-pill badge-{{ item.status.lower() }}"
+                style="font-size:11px">{{ item.status }}</span>
+        </div>
+        <div class="text-muted-custom" style="font-size:12px">
+          {{ item.sku }} &middot; {{ item.item_type }}
+          {% if item.growth_stage %}&middot; {{ item.growth_stage }}{% endif %}
+          {% if item.condition %}&middot; {{ item.condition }}{% endif %}
+        </div>
+      </div>
+      <div class="text-end ms-2">
+        {% if item.asking_price %}
+          <div class="text-money fw-bold">{{ item.asking_price | money }}</div>
+        {% endif %}
+        <div style="font-size:18px;color:var(--muted)"><i class="bi bi-chevron-right"></i></div>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+{% else %}
+  <div class="text-center text-muted-custom py-5">
+    <i class="bi bi-box-seam" style="font-size:48px;opacity:.3"></i>
+    <p class="mt-2">No items match these filters.</p>
+  </div>
+{% endif %}
+
+<!-- FAB: Add item -->
+<a href="{{ url_for('stock_add') }}" class="fab" title="Add item">
+  <i class="bi bi-plus-lg"></i>
+</a>
+
+{% endblock %}

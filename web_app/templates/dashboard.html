@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AlocasiaTrack{% endblock %}
+{% block page_title %}
+  <span style="color:#2a7a3a">🌿</span> AlocasiaTrack
+{% endblock %}
+
+{% block content %}
+
+<!-- Month subtitle -->
+<p class="text-muted-custom mb-3" style="font-size:13px">{{ now.strftime("%B %Y") }}</p>
+
+<!-- Inventory stats -->
+<p class="section-title">Inventory</p>
+<div class="row g-2 mb-2">
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Total Stock</div>
+      <div class="value">{{ stock.total }}</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Available</div>
+      <div class="value text-money">{{ stock.available }}</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Listed</div>
+      <div class="value text-amber">{{ stock.listed }}</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Sold (all)</div>
+      <div class="value text-purple">{{ stock.sold }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- By type -->
+<p class="section-title">Stock by Type</p>
+<div class="row g-2 mb-2">
+  {% for kind, color in [("Plant","#1f6aa5"),("Pup","#2a7a3a"),("Corm","#b87c1a")] %}
+  <div class="col-4">
+    <div class="stat-card">
+      <div class="label">{{ kind }}s</div>
+      <div class="value" style="color:{{ color }}">{{ stock.by_type.get(kind, 0) }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Financials -->
+<p class="section-title">Financials — {{ now.strftime("%B") }}</p>
+<div class="row g-2 mb-2">
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Revenue</div>
+      <div class="value text-money" style="font-size:20px">{{ month.revenue | money }}</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Profit</div>
+      <div class="value text-money" style="font-size:20px">{{ month.profit | money }}</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Sales</div>
+      <div class="value">{{ month.count }}</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="stat-card">
+      <div class="label">Inventory Value</div>
+      <div class="value text-amber" style="font-size:18px">{{ stock.available_value | money }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- All-time -->
+<div class="card p-3 mb-3" style="border-radius:12px">
+  <div class="d-flex justify-content-between align-items-center mb-1">
+    <span class="text-muted-custom" style="font-size:12px">ALL-TIME TOTALS</span>
+  </div>
+  <div class="d-flex gap-4">
+    <div>
+      <div style="font-size:11px;color:var(--muted)">Revenue</div>
+      <div class="fw-bold text-money">{{ alltime.total_revenue | money }}</div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--muted)">Profit</div>
+      <div class="fw-bold text-money">{{ alltime.total_profit | money }}</div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--muted)">Sales</div>
+      <div class="fw-bold">{{ alltime.total_sales }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent sales -->
+<p class="section-title">Recent Sales</p>
+{% if recent %}
+  {% for sale in recent %}
+  <div class="list-row mb-2">
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <div class="fw-semibold">{{ sale.species_name or "Unknown" }}</div>
+        <div class="text-muted-custom" style="font-size:12px">
+          {{ sale.sku or "—" }} &middot; {{ sale.sale_date | date_short }}
+        </div>
+      </div>
+      <div class="text-end">
+        <div class="text-money fw-bold">{{ sale.sale_price | money }}</div>
+        {% if sale.profit is not none %}
+          <div style="font-size:12px;color:var(--muted)">profit {{ sale.profit | money }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="text-center mt-2">
+    <a href="{{ url_for('sales_list') }}" class="btn btn-sm btn-outline-primary">View all sales</a>
+  </div>
+{% else %}
+  <p class="text-muted-custom text-center py-3">No sales recorded yet.</p>
+{% endif %}
+
+{% endblock %}

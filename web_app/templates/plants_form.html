@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% set back_url = url_for('plants_list') %}
+{% block title %}{{ title }} — AlocasiaTrack{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<form method="post">
+  <div class="mb-3">
+    <label class="form-label">Nickname</label>
+    <input type="text" name="nickname" class="form-control"
+           value="{{ item.nickname if item else '' }}" placeholder="e.g. Big Mama">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Species</label>
+    <select name="species_id" class="form-select">
+      <option value="">— None —</option>
+      {% for sp in species %}
+      <option value="{{ sp.id }}" {{ 'selected' if item and item.species_id == sp.id }}>
+        {{ sp.name }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="row g-2 mb-3">
+    <div class="col-6">
+      <label class="form-label">Acquired Date</label>
+      <input type="date" name="acquired_date" class="form-control"
+             value="{{ item.acquired_date if item else '' }}">
+    </div>
+    <div class="col-6">
+      <label class="form-label">Pot Size</label>
+      <input type="text" name="pot_size" class="form-control"
+             value="{{ item.pot_size if item else '' }}" placeholder='e.g. 10"'>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Health Status</label>
+    <select name="health_status" class="form-select">
+      {% for h in ["Healthy","Fair","Struggling","Recovering"] %}
+      <option {{ 'selected' if item and item.health_status == h else ('selected' if not item and h == 'Healthy' else '') }}>{{ h }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Location</label>
+    <input type="text" name="location" class="form-control"
+           value="{{ item.location if item else '' }}" placeholder="e.g. Greenhouse shelf 2">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Notes</label>
+    <textarea name="notes" class="form-control" rows="3">{{ item.notes or '' if item else '' }}</textarea>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">
+    <i class="bi bi-check-lg me-1"></i> {{ 'Save Changes' if item else 'Add Plant' }}
+  </button>
+</form>
+{% endblock %}

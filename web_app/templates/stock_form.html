@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% set back_url = url_for('stock_detail', id=item.id) if item else url_for('stock_list') %}
+{% block title %}{{ title }} — AlocasiaTrack{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<form method="post">
+
+  <!-- Type -->
+  <div class="mb-3">
+    <label class="form-label">Type *</label>
+    <div class="d-flex gap-2">
+      {% for t in ["Plant","Pup","Corm"] %}
+      <div class="form-check flex-fill"
+           style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+        <input class="form-check-input" type="radio" name="item_type" value="{{ t }}"
+               id="type_{{ t }}"
+               {{ 'checked' if (item and item.item_type == t) or (not item and t == 'Plant') }}
+               onchange="updateStages(this.value)">
+        <label class="form-check-label" for="type_{{ t }}">{{ t }}</label>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Species -->
+  <div class="mb-3">
+    <label class="form-label" for="species_id">Species</label>
+    <select name="species_id" id="species_id" class="form-select">
+      <option value="">— None —</option>
+      {% for sp in species %}
+      <option value="{{ sp.id }}"
+              {{ 'selected' if item and item.species_id == sp.id }}>
+        {{ sp.name }}{% if sp.common_name %} ({{ sp.common_name }}){% endif %}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Growth Stage -->
+  <div class="mb-3">
+    <label class="form-label" for="growth_stage">Growth Stage</label>
+    <select name="growth_stage" id="growth_stage" class="form-select">
+      <option value="">— None —</option>
+    </select>
+  </div>
+
+  <!-- Condition -->
+  <div class="mb-3">
+    <label class="form-label" for="condition">Condition</label>
+    <select name="condition" id="condition" class="form-select">
+      {% for c in ["Excellent","Good","Fair","Needs TLC"] %}
+      <option {{ 'selected' if item and item.condition == c else ('selected' if not item and c == 'Good' else '') }}>
+        {{ c }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Status (edit only) -->
+  {% if item %}
+  <div class="mb-3">
+    <label class="form-label" for="status">Status</label>
+    <select name="status" id="status" class="form-select">
+      {% for s in StockModel.STATUSES %}
+      <option {{ 'selected' if item.status == s }}>{{ s }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endif %}
+
+  <!-- Prices -->
+  <div class="row g-2 mb-3">
+    <div class="col-6">
+      <label class="form-label">Asking Price</label>
+      <div class="input-group">
+        <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">$</span>
+        <input type="number" step="0.01" name="asking_price" class="form-control"
+               value="{{ item.asking_price or '' if item else '' }}">
+      </div>
+    </div>
+    <div class="col-6">
+      <label class="form-label">Cost Basis</label>
+      <div class="input-group">
+        <span class="input-group-text" style="background:#252525;border-color:var(--border);color:var(--muted)">$</span>
+        <input type="number" step="0.01" name="cost_basis" class="form-control"
+               value="{{ item.cost_basis or '' if item else '' }}">
+      </div>
+    </div>
+  </div>
+
+  <!-- Pot Size -->
+  <div class="mb-3">
+    <label class="form-label">Pot Size</label>
+    <select name="pot_size" class="form-select">
+      <option value="">— None —</option>
+      {% for p in StockModel.get_pot_sizes() %}
+      <option {{ 'selected' if item and item.pot_size == p }}>{{ p }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Parent plant -->
+  <div class="mb-3">
+    <label class="form-label">Parent Plant</label>
+    <select name="parent_plant_id" class="form-select">
+      <option value="">— None —</option>
+      {% for pl in plants %}
+      <option value="{{ pl.id }}" {{ 'selected' if item and item.parent_plant_id == pl.id }}>
+        {{ pl.nickname or 'Unnamed' }} ({{ pl.species_name or '?' }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Quantity (add only) -->
+  {% if not item %}
+  <div class="mb-3">
+    <label class="form-label">Quantity to add</label>
+    <input type="number" name="quantity" class="form-control" value="1" min="1" max="50">
+    <div class="form-text" style="color:var(--muted)">Creates multiple identical SKUs.</div>
+  </div>
+  {% endif %}
+
+  <!-- Notes -->
+  <div class="mb-3">
+    <label class="form-label">Notes</label>
+    <textarea name="notes" class="form-control" rows="3">{{ item.notes or '' if item else '' }}</textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100 mt-2">
+    <i class="bi bi-check-lg me-1"></i> {{ 'Save Changes' if item else 'Add Item' }}
+  </button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const STAGES = {{ StockModel.GROWTH_STAGES | tojson }};
+const currentStage = {{ ('"' ~ item.growth_stage ~ '"') | safe if item and item.growth_stage else 'null' }};
+const currentType  = {{ ('"' ~ item.item_type ~ '"') | safe if item else '"Plant"' }};
+
+function updateStages(type) {
+  const sel = document.getElementById('growth_stage');
+  const stages = STAGES[type] || [];
+  sel.innerHTML = '<option value="">— None —</option>' +
+    stages.map(s => `<option${s === currentStage ? ' selected' : ''}>${s}</option>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => updateStages(currentType));
+</script>
+{% endblock %}
