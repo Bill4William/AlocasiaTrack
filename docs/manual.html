@@ -217,6 +217,7 @@
 
     <li class="section-head">Customisation</li>
     <li><a href="#settings-general">General Settings</a></li>
+    <li><a href="#settings-webapp">Web App Access</a></li>
 
     <li class="section-head">Reference</li>
     <li><a href="#data-location">Data &amp; Backups</a></li>
@@ -239,7 +240,8 @@
     AlocasiaTrack is a desktop app for collectors and small-scale sellers of
     Alocasia (and other tropical plants). It keeps track of your stock of plants,
     pups, and corms; records sales; syncs listings to Facebook Marketplace and
-    Shopify; and backs up data to Google Sheets and Google Drive.
+    Shopify; backs up data to Google Sheets and Google Drive; and includes a
+    built-in web server so you can access your inventory from a phone or tablet.
   </p>
 
   <table>
@@ -247,8 +249,9 @@
     <tr><td><strong>Dashboard</strong></td><td>Live snapshot of inventory value, sales stats, and stock by type</td></tr>
     <tr><td><strong>Stock</strong></td><td>Add / edit / sell Plants, Pups, and Corms with photos and SKUs</td></tr>
     <tr><td><strong>Mother Plants</strong></td><td>Track your personal collection — the source plants you don't sell</td></tr>
-    <tr><td><strong>Species &amp; Cultivars</strong></td><td>Reference library of 56+ Alocasia cultivars with care info and price ranges</td></tr>
+    <tr><td><strong>Species &amp; Cultivars</strong></td><td>Reference library of 100+ Alocasia cultivars with care info and price ranges; searchable and filterable</td></tr>
     <tr><td><strong>Sales</strong></td><td>Log every sale with buyer info, shipping, and automatic profit calculation</td></tr>
+    <tr><td><strong>Web App</strong></td><td>Built-in web server — access your inventory from any phone, tablet, or PC on your Wi-Fi</td></tr>
     <tr><td><strong>Google Sheets</strong></td><td>Mirror your inventory to a spreadsheet in real time</td></tr>
     <tr><td><strong>Google Drive</strong></td><td>Automatically back up all stock photos to the cloud</td></tr>
     <tr><td><strong>Gmail</strong></td><td>Email yourself when a sale is recorded or stock runs low</td></tr>
@@ -269,6 +272,18 @@
     <li>Click <strong>Finish</strong> — the app will launch automatically.</li>
   </ol>
 
+  <h3>macOS</h3>
+  <ol class="steps">
+    <li>Open <strong>AlocasiaTrackSetup_v1.0.0.dmg</strong>.</li>
+    <li>Drag <strong>AlocasiaTrack.app</strong> into your Applications folder.</li>
+    <li>Launch from Applications or Spotlight.</li>
+  </ol>
+  <div class="note">
+    On first launch macOS may show a security warning. Go to
+    <strong>System Settings → Privacy &amp; Security</strong> and click
+    <strong>Open Anyway</strong>.
+  </div>
+
   <h3>Running from Source</h3>
   <p>If you have Python 3.11+ installed:</p>
   <pre>pip install -r requirements.txt
@@ -276,9 +291,9 @@ python main.py</pre>
 
   <h3>System Requirements</h3>
   <ul>
-    <li>Windows 10 or 11 (64-bit)</li>
-    <li>~300 MB disk space (including app + bundled Python)</li>
-    <li>Internet connection required for any integration feature (Google, Facebook, Shopify)</li>
+    <li>Windows 10 / 11 (64-bit) <em>or</em> macOS 12+ (Intel or Apple Silicon via Rosetta 2)</li>
+    <li>~300 MB disk space (including app and bundled Python)</li>
+    <li>Internet connection required for Google, Facebook, and Shopify integrations</li>
   </ul>
 </section>
 
@@ -290,7 +305,8 @@ python main.py</pre>
     On first launch AlocasiaTrack creates its database and configuration folder
     automatically at:
   </p>
-  <pre>%LOCALAPPDATA%\AlocasiaTrack\</pre>
+  <pre>Windows:  %LOCALAPPDATA%\AlocasiaTrack\
+macOS:    ~/Library/Application Support/AlocasiaTrack/</pre>
   <p>
     This folder contains <code>inventory.db</code> (your plant data) and
     <code>config.json</code> (your settings). Nothing is stored inside the
@@ -302,15 +318,15 @@ python main.py</pre>
     Shortly after launch you may see a dialog asking whether to install
     <strong>Playwright</strong>. Playwright is the browser automation tool that
     powers the Facebook Marketplace integration. If you do not plan to use
-    Facebook Marketplace, click <strong>Skip for now</strong> or tick
-    <em>Don't ask me again</em>.  You can always trigger the install later from
-    <strong>Settings → Facebook</strong>.
+    Facebook Marketplace, click <strong>Skip for now</strong> — you will not
+    be asked again. You can install it later from
+    <strong>Settings → Facebook → Browser Requirement</strong>.
   </p>
 
   <div class="tip">
-    The app ships with a pre-loaded species library of 56 popular Alocasia
-    cultivars. You can start adding stock straight away without configuring any
-    integrations.
+    The app ships with a pre-loaded species library of 100+ Alocasia
+    cultivars. You can start adding stock straight away without configuring
+    any integrations.
   </div>
 </section>
 
@@ -339,8 +355,14 @@ python main.py</pre>
 
   <h3>By-type breakdown</h3>
   <p>
-    A small table shows how your Available stock is split between Plants, Pups,
+    A small row of cards shows how your stock is split between Plants, Pups,
     and Corms.
+  </p>
+
+  <h3>Recent sales</h3>
+  <p>
+    The bottom of the Dashboard lists your ten most recent sales with date,
+    SKU, species, sale price, and profit at a glance.
   </p>
 </section>
 
@@ -362,8 +384,8 @@ python main.py</pre>
     <li>Click <strong>+ Add Item</strong> in the top-right of the Stock view.</li>
     <li>Choose the item type: <em>Plant</em>, <em>Pup</em>, or <em>Corm</em>.</li>
     <li>Set the <strong>Quantity</strong> (default 1). Increase this to create several identical items at once — each will receive its own unique SKU.</li>
-    <li>Select the <strong>Species</strong> from the dropdown (or leave blank if unknown).</li>
-    <li>If this item came from one of your mother plants, select it under <strong>Parent Plant</strong>.</li>
+    <li>Select the <strong>Species</strong> using the searchable dropdown — start typing any part of the name to filter the list instantly.</li>
+    <li>If this item came from one of your mother plants, search and select it under <strong>Parent Plant</strong>.</li>
     <li>Fill in <strong>Growth Stage</strong>, <strong>Condition</strong>, and <strong>Pot Size</strong>.</li>
     <li>Enter an <strong>Asking Price</strong> and optionally a <strong>Cost Basis</strong> (what you paid for it).</li>
     <li>Add any notes, then click <strong>Save</strong>.</li>
@@ -382,12 +404,24 @@ python main.py</pre>
     SKUs are permanent and never reused.
   </div>
 
+  <h3>Searchable species dropdown</h3>
+  <p>
+    Both the <strong>Species</strong> and <strong>Parent Plant</strong> fields
+    use a searchable type-ahead dropdown rather than a plain list:
+  </p>
+  <ul>
+    <li>Click the field or the <strong>▾</strong> arrow to open the full list.</li>
+    <li>Start typing to filter — for example, typing <code>dra</code> narrows the list to all entries containing those letters.</li>
+    <li>Use the <strong>↑ / ↓</strong> arrow keys to move through the filtered list, then press <strong>Enter</strong> to select.</li>
+    <li>Press <strong>Escape</strong> or click elsewhere to close without selecting.</li>
+  </ul>
+
   <h3>Adding photos</h3>
   <p>
-    Inside the stock item dialog there is a <strong>Photos</strong> panel on the
-    right side. Click <strong>+ Add Photos</strong> to browse for one or more
-    images. Photos are stored locally on your machine. If Google Drive is
-    configured, they are also uploaded automatically.
+    Inside the stock item dialog there is a <strong>Photos</strong> panel.
+    Click <strong>+ Add Photos</strong> to browse for one or more images.
+    Photos are stored locally on your machine. If Google Drive is configured,
+    they are also uploaded automatically.
   </p>
   <ul>
     <li>Supported formats: JPG, PNG, WEBP, GIF, BMP</li>
@@ -401,10 +435,19 @@ python main.py</pre>
     <tr><th>Status</th><th>Meaning</th><th>How to set it</th></tr>
     <tr><td><strong>Available</strong></td><td>Ready to sell, not yet posted anywhere</td><td>Default when added</td></tr>
     <tr><td><strong>Listed</strong></td><td>Posted on Shopify or Facebook</td><td>Auto-set when you post; or edit manually</td></tr>
-    <tr><td><strong>Sold</strong></td><td>Sold to a buyer</td><td>Click <strong>Record Sale</strong> in the stock row</td></tr>
+    <tr><td><strong>Sold</strong></td><td>Sold to a buyer</td><td>Click <strong>Record Sale</strong> in the toolbar</td></tr>
     <tr><td><strong>Traded</strong></td><td>Exchanged with another collector</td><td>Edit the item and change status</td></tr>
     <tr><td><strong>Died</strong></td><td>Plant did not survive</td><td>Edit the item and change status</td></tr>
   </table>
+
+  <h3>Filtering the stock list</h3>
+  <p>
+    Use the filter controls at the top of the Stock view to narrow the list by
+    <strong>Type</strong> (Plant / Pup / Corm), <strong>Status</strong>
+    (Available / Listed / Sold / etc.), and <strong>Species</strong>.
+    Filters can be combined — for example, show only Available Pups of a
+    specific cultivar.
+  </p>
 
   <h3>Listing on Shopify</h3>
   <p>
@@ -423,15 +466,6 @@ python main.py</pre>
     with everything filled in. Review the page, make any final adjustments, then
     click <strong>Publish</strong>.
   </p>
-
-  <h3>Filtering the stock list</h3>
-  <p>
-    Use the filter controls at the top of the Stock view to narrow the list by
-    <strong>Type</strong> (Plant / Pup / Corm), <strong>Status</strong>
-    (Available / Listed / Sold / etc.), and <strong>Species</strong>.
-    Filters can be combined — for example, show only Available Pups of a
-    specific cultivar.
-  </p>
 </section>
 
 <!-- ── Mother Plants ─────────────────────────────────────────────────────── -->
@@ -445,17 +479,30 @@ python main.py</pre>
   <h3>Adding a mother plant</h3>
   <ol class="steps">
     <li>Click <strong>+ Add Plant</strong>.</li>
-    <li>Choose the species and give the plant a nickname (e.g. "Big Frydek").</li>
-    <li>Enter the acquisition date, pot size, health status, and location.</li>
-    <li>Add photos if desired.</li>
-    <li>Click <strong>Save</strong>.</li>
+    <li>Search and select the species using the searchable dropdown.</li>
+    <li>Give the plant a nickname (e.g. "Big Frydek").</li>
+    <li>Click the <strong>calendar icon</strong> next to the date field to pick an acquisition date from the calendar picker, or type the date manually in <code>YYYY-MM-DD</code> format.</li>
+    <li>Set the pot size, health status, and location.</li>
+    <li>Add photos if desired, then click <strong>Save</strong>.</li>
   </ol>
+
+  <h3>Date picker</h3>
+  <p>
+    All date fields in the app include a <strong>📅 calendar button</strong>.
+    Click it to open a month-view calendar:
+  </p>
+  <ul>
+    <li>Use <strong>◀ / ▶</strong> to navigate between months.</li>
+    <li>Click any day to select it — the field fills with <code>YYYY-MM-DD</code> automatically.</li>
+    <li>Click <strong>Today</strong> at the bottom to jump straight to today's date.</li>
+    <li>You can also type a date directly in the text field if you prefer.</li>
+  </ul>
 
   <h3>Linking stock to a mother plant</h3>
   <p>
     When adding a Pup or Corm to Stock, the <strong>Parent Plant</strong>
-    dropdown lists all your mother plants. Selecting one lets you trace every
-    propagation back to its source plant.
+    searchable dropdown lists all your mother plants. Selecting one lets you
+    trace every propagation back to its source plant.
   </p>
 
   <h3>Health statuses</h3>
@@ -472,24 +519,92 @@ python main.py</pre>
   <h2>Species &amp; Cultivars</h2>
   <p>
     The <strong>Species &amp; Cultivars</strong> view is a reference library.
-    It comes pre-loaded with 56 popular Alocasia cultivars and their typical
-    care levels and market price ranges.
+    It ships pre-loaded with 100+ Alocasia species and cultivars, including
+    their typical care levels and market price ranges.
   </p>
 
   <h3>Columns</h3>
   <table>
     <tr><th>Column</th><th>Meaning</th></tr>
-    <tr><td><strong>Common Name</strong></td><td>The popular name collectors use, e.g. "Dragon Scale"</td></tr>
-    <tr><td><strong>Scientific / Cultivar Name</strong></td><td>The botanical or registered cultivar name</td></tr>
+    <tr><td><strong>Display Name</strong></td><td>The full trade name used in listings — always includes "Alocasia", e.g. "Alocasia Dragon Scale"</td></tr>
+    <tr><td><strong>Common Name</strong></td><td>The popular nickname only, without the genus — e.g. "Dragon Scale", "Polly", "Giant Taro"</td></tr>
+    <tr><td><strong>Scientific / Cultivar Name</strong></td><td>The botanical epithet — e.g. <code>baginda 'Dragon Scale'</code></td></tr>
     <tr><td><strong>Care Level</strong></td><td>Easy, Moderate, or Difficult</td></tr>
-    <tr><td><strong>Price Min / Max</strong></td><td>Typical retail price range for mature plants</td></tr>
-    <tr><td><strong>In Stock</strong></td><td>How many Available or Listed items you currently have</td></tr>
+    <tr><td><strong>Price Min / Max</strong></td><td>Typical retail price range for corms through mature plants</td></tr>
+    <tr><td><strong>In Stock</strong></td><td>How many Available or Listed items you currently have of this species</td></tr>
+    <tr><td><strong>Notes</strong></td><td>Short care description (first 60 characters shown; full notes visible when editing)</td></tr>
   </table>
+
+  <h3>Naming conventions</h3>
+  <p>Three separate name fields keep things unambiguous:</p>
+  <ul>
+    <li><strong>Scientific name</strong> — the botanical epithet without genus, e.g. <code>baginda 'Dragon Scale'</code></li>
+    <li><strong>Common name</strong> — the short nickname collectors use, <em>without</em> "Alocasia", e.g. "Dragon Scale"</li>
+    <li><strong>Display name</strong> — the trade / listing name <em>with</em> "Alocasia", e.g. "Alocasia Dragon Scale"</li>
+  </ul>
+  <div class="note">
+    The display name is what appears in stock dropdowns and Facebook listing
+    titles. The common name is the pure nickname and never includes the genus.
+  </div>
+
+  <h3>Searching the species list</h3>
+  <p>
+    A <strong>search bar</strong> at the top of the Species view filters all
+    columns simultaneously as you type. Searching for "dragon" instantly narrows
+    the list to every entry where any column contains that word.
+    A <strong>✕</strong> button appears while the search is active; click it to
+    clear.
+  </p>
+
+  <h3>Sorting columns</h3>
+  <p>
+    <strong>Left-click any column heading</strong> to sort by that column.
+    Click again to reverse the order. An <strong>▲</strong> or <strong>▼</strong>
+    indicator in the heading shows the active sort direction.
+  </p>
+
+  <h3>Filtering columns</h3>
+  <p>
+    <strong>Right-click any column heading</strong> to open a filter popup for
+    that column. The popup shows all unique values in that column as checkboxes:
+  </p>
+  <ul>
+    <li>Uncheck any values you want to hide, then click <strong>Apply</strong>.</li>
+    <li>A <strong>⊘</strong> indicator in the column heading shows when a filter is active.</li>
+    <li>Click <strong>Clear Filter</strong> to remove that column's filter.</li>
+    <li>Multiple column filters stack — for example, show only "Easy" care level items that have zero in stock.</li>
+  </ul>
+  <p>
+    The status bar below the table updates to show
+    <em>Showing X of Y cultivars</em> whenever any filter is active.
+  </p>
+
+  <h3>Importing species lists</h3>
+  <p>
+    Click <strong>⬇ Import List</strong> (blue button, top-left of the toolbar)
+    to open the Import Species Lists dialog. This lets you populate your database
+    from pre-built species packs without typing anything manually.
+  </p>
+  <ol class="steps">
+    <li>The dialog shows all available species packs — the built-in Alocasia pack ships with the app.</li>
+    <li>Each pack card previews exactly how many entries are <strong>New</strong>, <strong>Updates</strong>, or <strong>No change</strong> before you commit.</li>
+    <li>Tick the packs you want and click <strong>Import Selected</strong>.</li>
+    <li>The status bar shows a live count as entries are processed. When complete, the species list refreshes automatically.</li>
+  </ol>
+  <div class="tip">
+    You can add more genus packs (e.g. Philodendron, Monstera) by dropping a
+    <code>.py</code> file into the <code>species_seeds/</code> folder inside
+    the application directory. The new pack appears in the Import dialog
+    automatically — no code changes needed. See the
+    <code>species_seeds/alocasia.py</code> file for the expected format.
+  </div>
 
   <h3>Adding a custom cultivar</h3>
   <ol class="steps">
     <li>Click <strong>+ Add Species</strong>.</li>
-    <li>Enter the scientific/cultivar name (required) and common name (optional).</li>
+    <li>Enter the <strong>Scientific / Cultivar Name</strong> (required) — e.g. <code>amazonica 'Polly'</code>.</li>
+    <li>Enter the <strong>Display Name</strong> — the trade name with genus, e.g. <code>Alocasia Polly</code>.</li>
+    <li>Enter the <strong>Common Name</strong> — the short nickname without genus, e.g. <code>Polly</code>.</li>
     <li>Set the care level and typical price range.</li>
     <li>Add notes if desired, then click <strong>Save</strong>.</li>
   </ol>
@@ -509,6 +624,7 @@ python main.py</pre>
     <li>Find the item in the Stock list.</li>
     <li>Click the <strong>Record Sale</strong> button in the toolbar (the item must be selected).</li>
     <li>Enter the sale price, buyer name, buyer contact, shipping method, and shipping cost.</li>
+    <li>Use the <strong>calendar icon</strong> next to the sale date field to pick the date, or type it directly.</li>
     <li>The platform field is pre-filled if the item had an active listing.</li>
     <li>Click <strong>Record Sale</strong>.</li>
   </ol>
@@ -527,7 +643,7 @@ python main.py</pre>
   <h3>The Sales view</h3>
   <p>
     The <strong>Sales</strong> tab shows every recorded sale with totals for
-    revenue, profit, and count, broken down by month.
+    revenue, profit, and count, broken down by the current month and all time.
   </p>
 
   <div class="note">
@@ -637,7 +753,7 @@ python main.py</pre>
   ├── baginda 'Dragon Scale'/
   │     ├── PLT-0001_1.jpg
   │     └── PLT-0001_2.jpg
-  ├── frydek/
+  ├── micholitziana 'Frydek'/
   │     └── PUP-0002_1.jpg
   └── …</pre>
 
@@ -658,10 +774,11 @@ python main.py</pre>
   <h3>Setup</h3>
   <ol class="steps">
     <li>Complete the <a href="#google-setup">Google Integration Setup</a> above.</li>
-    <li>Go to <strong>Settings → Gmail</strong>.</li>
+    <li>Go to <strong>Settings → Gmail Alerts</strong>.</li>
+    <li>If the Gmail scope is not yet authorised, click <strong>Re-authorize</strong> — a browser window opens once for you to grant the Gmail permission.</li>
     <li>Enter the email address where you want to receive alerts.</li>
     <li>Toggle <em>Sale alerts</em> and/or <em>Low-stock alerts</em> on.</li>
-    <li>For low-stock alerts, set the threshold (default: 2 — notified when available count drops to or below this number).</li>
+    <li>For low-stock alerts, set the threshold (default: 2 — notified when the available count drops to or below this number).</li>
     <li>Click <strong>Save</strong>.</li>
   </ol>
 
@@ -695,10 +812,17 @@ python main.py</pre>
 
   <h3>Installing Playwright</h3>
   <p>
-    On first launch you will be asked whether to install Playwright. You can
-    also trigger this from <strong>Settings → Facebook → Install Playwright</strong>.
+    Playwright is an <em>optional</em> component and is not bundled with the
+    installer (it requires a ~200 MB Chromium browser download). Install it
+    through the app:
   </p>
-  <p>If you prefer to install it manually, open a terminal and run:</p>
+  <ol class="steps">
+    <li>Go to <strong>Settings → Facebook</strong>.</li>
+    <li>Scroll to the <strong>Browser Requirement</strong> section.</li>
+    <li>Click <strong>Install Playwright + Chromium</strong> and wait for the download to complete (~2 minutes on a fast connection).</li>
+    <li>The status updates to <em>Playwright + Chromium installed</em> when complete, and the Login button becomes active.</li>
+  </ol>
+  <p>To install manually, open a terminal and run:</p>
   <pre>pip install playwright
 playwright install chromium</pre>
 
@@ -707,20 +831,28 @@ playwright install chromium</pre>
     Wi-Fi before installing.
   </div>
 
+  <div class="note">
+    When running from the installed <strong>.exe</strong>, Playwright runs
+    using your system Python installation (not the bundled Python). This is
+    intentional — Playwright and Chromium are too large to bundle.
+    The <em>Login to Facebook</em> button is automatically disabled when
+    Playwright is not detected, preventing confusing error messages.
+  </div>
+
   <h3>Connecting your Facebook account</h3>
   <ol class="steps">
     <li>Go to <strong>Settings → Facebook</strong>.</li>
-    <li>Click <strong>Connect Facebook Account</strong>.</li>
+    <li>Click <strong>Login to Facebook</strong>.</li>
     <li>A Chromium browser window opens and navigates to facebook.com.</li>
     <li>Log in normally (including any 2-factor authentication).</li>
-    <li>Once you are logged in, close the browser or wait — the app detects the login and saves the session.</li>
-    <li>The Settings page now shows <em>Session active</em>.</li>
+    <li>Once you are logged in, the app detects the session and saves it automatically.</li>
+    <li>The Settings page shows <em>Session saved — you are now connected to Facebook.</em></li>
   </ol>
 
   <div class="note">
     The session is saved as cookies in <code>%LOCALAPPDATA%\AlocasiaTrack\fb_session.json</code>.
     It typically stays valid for several weeks. If Marketplace posts start
-    failing, reconnect using the same steps above.
+    failing, click <strong>Clear Session</strong> and reconnect.
   </div>
 
   <h3>Posting a listing</h3>
@@ -734,17 +866,17 @@ playwright install chromium</pre>
     <li>The browser closes and the listing URL is saved to your records.</li>
   </ol>
 
-  <h3>Default hashtags</h3>
+  <h3>Default hashtags &amp; location</h3>
   <p>
-    Go to <strong>Settings → Facebook</strong> and edit the
-    <em>Default hashtags</em> field. These are appended to every listing
-    description automatically.
+    Go to <strong>Settings → Facebook → Listing Defaults</strong> to set a
+    default location (city or zip) and hashtags that are appended to every
+    listing description automatically.
   </p>
 
   <h3>Disconnecting</h3>
   <p>
-    Click <strong>Clear Session</strong> in Settings → Facebook to delete the
-    saved cookies. You will need to reconnect before posting again.
+    Click <strong>Clear Session</strong> in <strong>Settings → Facebook</strong>
+    to delete the saved cookies. You will need to reconnect before posting again.
   </p>
 </section>
 
@@ -829,16 +961,16 @@ playwright install chromium</pre>
 
   <h4>Reordering pot sizes</h4>
   <p>
-    Select any pot size in the list and use the <strong>↑</strong> and
-    <strong>↓</strong> arrow buttons to move it up or down. The order here
-    is the order that appears in the dropdowns.
+    Use the <strong>↑</strong> and <strong>↓</strong> arrow buttons on any row
+    to move it up or down. The order here is the order that appears in the
+    dropdowns.
   </p>
 
   <h4>Removing a pot size</h4>
   <p>
-    Select the size you want to remove, then click the <strong>✕</strong>
-    (remove) button. Stock items that already used that size are not affected —
-    only new items will no longer see it as an option.
+    Click the <strong>✕</strong> button on any row to remove it. Stock items
+    that already used that size are not affected — only new items will no longer
+    see it as an option.
   </p>
 
   <h4>Resetting to defaults</h4>
@@ -849,9 +981,102 @@ playwright install chromium</pre>
 
   <div class="note">
     Changes to the pot size list take effect immediately for any dialog you
-    open after saving. Dialogs that are already open will still show the
-    previous list.
+    open after saving.
   </div>
+</section>
+
+<!-- ── Web App / Mobile Access ───────────────────────────────────────────── -->
+<section id="settings-webapp">
+  <h2>Web App &amp; Mobile Access</h2>
+  <p>
+    AlocasiaTrack includes a built-in web server that makes your inventory
+    accessible from any browser on your local network — your phone, tablet,
+    or another PC. The web app reads and writes the same database as the
+    desktop app in real time.
+  </p>
+
+  <h3>Starting the web server</h3>
+  <ol class="steps">
+    <li>Go to <strong>Settings → Web App</strong>.</li>
+    <li>Click <strong>Start Web Server</strong>.</li>
+    <li>The status changes to <em>● Running</em> and a URL appears, e.g. <code>http://192.168.1.45:5000</code>.</li>
+    <li>Open that URL in any browser on the same Wi-Fi network.</li>
+  </ol>
+
+  <div class="tip">
+    Click the URL label directly in Settings to open the web app in your
+    default browser. Click <strong>Copy URL</strong> to copy it to the clipboard
+    for sharing or bookmarking on your phone.
+  </div>
+
+  <h3>Accessing from your phone</h3>
+  <p>
+    With the server running, open the address shown in Settings in your phone's
+    browser. For the best experience on mobile:
+  </p>
+  <ul>
+    <li><strong>Android:</strong> In Chrome, tap the three-dot menu → <em>Add to Home screen</em>. The app installs as a PWA and opens without browser chrome.</li>
+    <li><strong>iPhone / iPad:</strong> In Safari, tap <em>Share → Add to Home Screen</em>. Same result — it behaves like a native app.</li>
+  </ul>
+
+  <h3>Web app features</h3>
+  <table>
+    <tr><th>Screen</th><th>What you can do</th></tr>
+    <tr><td><strong>Dashboard</strong></td><td>View all inventory stats, monthly financials, and recent sales</td></tr>
+    <tr><td><strong>Stock</strong></td><td>Search and filter your inventory; view item details including photos; record sales via a modal form</td></tr>
+    <tr><td><strong>Stock Detail</strong></td><td>See all item fields; tap any photo thumbnail to view full-size; change status with one tap</td></tr>
+    <tr><td><strong>Sales</strong></td><td>Browse all sales history with monthly and all-time totals</td></tr>
+    <tr><td><strong>Species</strong></td><td>Browse and search the species reference library</td></tr>
+    <tr><td><strong>Mother Plants</strong></td><td>Browse your personal plant collection</td></tr>
+  </table>
+
+  <h3>Port configuration</h3>
+  <p>
+    The default port is <strong>5000</strong>. To change it:
+  </p>
+  <ol class="steps">
+    <li>Enter a new port number (1024–65535) in the <strong>Port</strong> field.</li>
+    <li>Click <strong>Save &amp; Restart</strong> — the server restarts automatically on the new port.</li>
+  </ol>
+  <div class="note">
+    Change the port if port 5000 is already in use by another application on
+    your PC, or if you prefer a specific port (e.g. 8080).
+  </div>
+
+  <h3>Auto-start</h3>
+  <p>
+    Tick <strong>Start web server automatically when the app launches</strong>
+    to have the server start silently every time you open AlocasiaTrack. The
+    server runs in the background and does not affect desktop app performance.
+  </p>
+
+  <h3>Using a custom address</h3>
+  <p>
+    By default the server is accessible at your PC's local IP address (e.g.
+    <code>192.168.1.45:5000</code>), which changes if your router assigns a
+    different IP. For a permanent memorable address like <code>alocasia.local</code>:
+  </p>
+  <ol class="steps">
+    <li>Log in to your router's admin page.</li>
+    <li>Under <em>Static DHCP</em> or <em>Reserved IP</em>, assign a fixed IP address to your PC's MAC address.</li>
+    <li>Under <em>Local DNS</em> or <em>Hostnames</em>, add:<br><code>alocasia.local → &lt;your PC's fixed IP&gt;</code></li>
+  </ol>
+  <p>
+    All devices on your Wi-Fi can then use
+    <code>http://alocasia.local:5000</code> as a permanent bookmark.
+  </p>
+
+  <div class="warn">
+    The web server is designed for trusted local networks only. Do not forward
+    the port to the internet — there is no authentication.
+  </div>
+
+  <h3>Running the web app without the desktop</h3>
+  <p>
+    If you are running from source and want the web app only (e.g. on a
+    headless server), you can launch it directly:
+  </p>
+  <pre>python web_app/run.py</pre>
 </section>
 
 <!-- ── Data Location ─────────────────────────────────────────────────────── -->
@@ -867,22 +1092,23 @@ playwright install chromium</pre>
     <tr><td><code>shopify_products.json</code></td><td>Mapping of stock items to Shopify product IDs</td></tr>
     <tr><td><code>token.json</code></td><td>Google OAuth token (auto-managed)</td></tr>
   </table>
-  <p>All files live in: <code>%LOCALAPPDATA%\AlocasiaTrack\</code></p>
+  <p>All files live in:</p>
+  <pre>Windows:  %LOCALAPPDATA%\AlocasiaTrack\
+macOS:    ~/Library/Application Support/AlocasiaTrack/</pre>
 
   <h3>Manual backup</h3>
   <p>
-    Copy the entire <code>AlocasiaTrack</code> folder from
-    <code>%LOCALAPPDATA%</code> to a safe location. To restore, copy it back
-    and restart the app.
+    Copy the entire <code>AlocasiaTrack</code> data folder to a safe location.
+    To restore, copy it back and restart the app.
   </p>
 
   <h3>Uninstalling</h3>
   <p>
-    Use <strong>Add or Remove Programs</strong> to uninstall AlocasiaTrack.
+    Use <strong>Add or Remove Programs</strong> (Windows) or drag
+    <strong>AlocasiaTrack.app</strong> to the Trash (macOS) to uninstall.
     The uninstaller removes the application files but does
-    <strong>not</strong> delete your data folder in
-    <code>%LOCALAPPDATA%\AlocasiaTrack</code>. Delete that folder manually if
-    you want to remove all data.
+    <strong>not</strong> delete your data folder. Delete that folder manually
+    if you want to remove all data.
   </p>
 </section>
 
@@ -894,16 +1120,16 @@ playwright install chromium</pre>
   <p>
     The app may be reading a different database than expected. Check that
     <code>%LOCALAPPDATA%\AlocasiaTrack\inventory.db</code> exists. If it does
-    and the app is still empty, close the app and delete any
+    and the app is still empty, close the app, delete any
     <code>__pycache__</code> folders inside the install directory, then relaunch.
   </p>
 
-  <h3>Species / Common Name column is empty</h3>
+  <h3>Species list is empty or outdated</h3>
   <p>
-    This usually means the database was created before the
-    <code>common_name</code> column was added. The app applies this migration
-    automatically on launch. If it still shows empty after restarting, run
-    the seed script from the project directory:
+    Click <strong>⬇ Import List</strong> in the Species view, select the
+    Alocasia pack, and click <strong>Import Selected</strong>. This will add
+    any missing entries without removing your existing data. Alternatively,
+    run the seed script from source:
   </p>
   <pre>python scripts\seed_species.py</pre>
 
@@ -914,11 +1140,20 @@ playwright install chromium</pre>
     <li>Confirm the required APIs (Sheets, Drive, Gmail) are enabled in your Google Cloud project.</li>
   </ul>
 
+  <h3>Facebook — "Login to Facebook" button is greyed out</h3>
+  <p>
+    The button is disabled until Playwright and Chromium are installed. Go to
+    <strong>Settings → Facebook → Browser Requirement</strong> and click
+    <strong>Install Playwright + Chromium</strong>. After installation the
+    button becomes active automatically.
+  </p>
+
   <h3>Facebook posting fails or the browser does not open</h3>
   <ul>
-    <li>Check that Playwright is installed: go to <strong>Settings → Facebook</strong> and look for the Install button.</li>
-    <li>If Playwright is installed but the browser still doesn't open, try running <code>playwright install chromium</code> in a terminal to re-download the browser.</li>
-    <li>If you get a login wall every time, clear the session and reconnect.</li>
+    <li>Confirm the Browser Requirement section in <strong>Settings → Facebook</strong> shows <em>Playwright + Chromium installed</em>.</li>
+    <li>If it still shows "not installed" after you installed it, try running <code>playwright install chromium</code> in a terminal to re-download the browser, then restart the app.</li>
+    <li>When running from the installed <strong>.exe</strong>, Playwright must be installed in your system Python (not the bundled one). Open a normal terminal (not inside the app) and run <code>pip install playwright &amp;&amp; playwright install chromium</code>.</li>
+    <li>If you get a login wall every time, click <strong>Clear Session</strong> and reconnect.</li>
   </ul>
 
   <h3>Shopify "Test Connection" fails</h3>
@@ -935,6 +1170,14 @@ playwright install chromium</pre>
     <li>Drive uploads happen in the background — check back after a few seconds.</li>
   </ul>
 
+  <h3>Web app not accessible from phone</h3>
+  <ul>
+    <li>Make sure both your PC and phone are on the <em>same</em> Wi-Fi network.</li>
+    <li>Check the server is running: <strong>Settings → Web App</strong> should show <em>● Running</em>.</li>
+    <li>Use the IP address shown in Settings, not <code>localhost</code> — <code>localhost</code> only works on the PC itself.</li>
+    <li>If your Windows Firewall blocks the connection, allow Python through the firewall for private networks, or change the port and try again.</li>
+  </ul>
+
   <h3>SKU numbers jumped unexpectedly</h3>
   <p>
     SKUs are assigned based on the total count of each item type ever added
@@ -943,9 +1186,8 @@ playwright install chromium</pre>
   </p>
 
   <div class="tip">
-    For any issue not listed here, check the Windows Event Viewer
-    (Application log) or run the app from source in a terminal to see
-    Python error output directly.
+    For any issue not listed here, run the app from source in a terminal
+    (<code>python main.py</code>) to see Python error output directly.
   </div>
 </section>
 
