@@ -38,6 +38,8 @@ a = Analysis(
         (os.path.join(project_root, "icon.ico"), "."),
         # Playwright worker — called via system Python when running as bundled exe
         (os.path.join(project_root, "scripts", "facebook_worker.py"), "scripts"),
+        # Species seed packs — drop a .py file here to add a new genus
+        (os.path.join(project_root, "species_seeds"), "species_seeds"),
     ],
     hiddenimports=ctk_hiddenimports + [
         # Google auth / API

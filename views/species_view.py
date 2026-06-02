@@ -67,6 +67,11 @@ class SpeciesView(ctk.CTkFrame):
 
         btn_row = ctk.CTkFrame(hdr, fg_color="transparent")
         btn_row.grid(row=0, column=1)
+        ctk.CTkButton(
+            btn_row, text="⬇  Import List", width=120,
+            fg_color="#1f6aa5", hover_color="#144d7a",
+            command=self._import_list,
+        ).pack(side="left", padx=4)
         ctk.CTkButton(btn_row, text="+ Add Species", width=120,
                       command=self._add).pack(side="left", padx=4)
         ctk.CTkButton(btn_row, text="Edit", width=80, fg_color="gray40",
@@ -394,6 +399,11 @@ class SpeciesView(ctk.CTkFrame):
     def _selected_id(self) -> int | None:
         sel = self._tree.selection()
         return int(sel[0]) if sel else None
+
+    def _import_list(self):
+        from dialogs.import_species_dialog import ImportSpeciesDialog
+        dlg = ImportSpeciesDialog(self, on_complete=self.refresh)
+        self.wait_window(dlg)
 
     def _add(self):
         dlg = SpeciesDialog(self)
