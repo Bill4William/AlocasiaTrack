@@ -7,6 +7,7 @@ from dialogs.species_dialog import SpeciesDialog
 
 def _apply_tree_style():
     style = ttk.Style()
+    style.theme_use("default")
     style.configure("Species.Treeview",
         background="#2b2b2b", foreground="white",
         rowheight=30, fieldbackground="#2b2b2b",
