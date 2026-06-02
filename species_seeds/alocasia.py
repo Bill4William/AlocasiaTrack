@@ -18,7 +18,7 @@ METADATA = {
     "name":        "Alocasia",
     "genus":       "Alocasia",
     "emoji":       "🌿",
-    "description": "330 Alocasia species, cultivars and hybrids — "
+    "description": "327 Alocasia species, cultivars and hybrids — "
                    "Full Aroidpedia species, cultivars and hybrids lists. "
                    "Easy through Difficult care levels.",
     "version":     "1.1",
@@ -155,15 +155,7 @@ SPECIES = [
         "Distinctive stingray-shaped leaves with an elongated raised tail tip. Reliable "
         "moderate grower; always a conversation piece. Corms: $6-14, Pups: $14-32, Plants: $28-65.",
     ),
-    # Legacy standalone name kept for backward-compatibility
-    (
-        "'Stingray'",
-        "Stingray",
-        "Alocasia Stingray",
-        "Moderate", 10, 65,
-        "Distinctive stingray-shaped leaves with an elongated raised tail tip. "
-        "Corms: $6-14, Pups: $14-32, Plants: $28-65.",
-    ),
+    # Legacy standalone 'Stingray' entry removed — use macrorrhizos 'Stingray'
     (
         "macrorrhizos 'Shock Treatment'",
         "Shock Treatment",
@@ -431,14 +423,7 @@ SPECIES = [
         "Near-black leaves with subtle silver veining. Increasingly popular collector "
         "variety. Corms: $8-18, Pups: $18-36, Plants: $32-70.",
     ),
-    (
-        "'California'",
-        "California Elephant Ear",
-        "Alocasia California",
-        "Moderate", 10, 60,
-        "Deeply lobed olive-green leaves with prominent veins. Vigorous grower; handles "
-        "typical indoor humidity well. Corms: $6-14, Pups: $14-30, Plants: $26-60.",
-    ),
+    # (standalone 'California' entry removed — use odora 'California' below)
     (
         "'Sumo'",
         "Sumo",
@@ -1338,7 +1323,7 @@ SPECIES = [
     ("ampunganensis", "Ampungan Taro", "Alocasia Ampunganensis",
      "Moderate", 15, 75,
      "From the Ampungan region of Sumatra, Indonesia. Relatively rare collector species."),
-    ("arifolia", "Arum-Leaf Alocasia", "Alocasia Arifolia",
+    ("arifolia", "Arum-Leaf", "Alocasia Arifolia",
      "Moderate", 10, 55,
      "Arum-shaped (arifolia = arum-leaved) compact leaves. Reliable Southeast Asian species."),
     ("atropurpurea", "Dark Purple", "Alocasia Atropurpurea",
@@ -1348,26 +1333,26 @@ SPECIES = [
 
     # B
 
-    ("balgooyi", "Balgooy's Alocasia", "Alocasia Balgooyi",
+    ("balgooyi", "Balgooy's", "Alocasia Balgooyi",
      "Moderate", 15, 75,
      "Named after Dutch botanist M.M.J. van Balgooy. Compact Borneo native with "
      "distinctive thick leathery leaves."),
-    ("becarii", "Beccari's Alocasia", "Alocasia Becarii",
+    ("becarii", "Beccari's", "Alocasia Becarii",
      "Moderate", 15, 75,
      "Named after Italian botanist Odoardo Beccari, who collected extensively in Borneo. "
      "Glossy arrowhead leaves with prominent veins."),
-    ("boa", "Boa Alocasia", "Alocasia Boa",
+    ("boa", "Boa", "Alocasia Boa",
      "Easy", 12, 65,
      "Dramatically thick, snake-like petioles (named after the boa constrictor). "
      "Large tropical leaves on robust constricted stems."),
-    ("boyceana", "Boyce's Alocasia", "Alocasia Boyceana",
+    ("boyceana", "Boyce's", "Alocasia Boyceana",
      "Moderate", 15, 75,
      "Named after Aroid specialist Peter Boyce. Distinctive species with uniquely "
      "shaped leaves; relatively rare in cultivation."),
 
     # C
 
-    ("cadieri", "Cadiere's Alocasia", "Alocasia Cadieri",
+    ("cadieri", "Cadiere's", "Alocasia Cadieri",
      "Moderate", 12, 60,
      "Named after Léopold Cadière, French missionary and naturalist in Vietnam. "
      "Vietnamese native with elegant arrowhead leaves."),
@@ -1375,7 +1360,7 @@ SPECIES = [
      "Moderate", 12, 60,
      "From Sulawesi (historically Celebes). Upright growing species with bold "
      "glossy leaves; reliable moderate grower."),
-    ("chaii", "Chai's Alocasia", "Alocasia Chaii",
+    ("chaii", "Chai's", "Alocasia Chaii",
      "Moderate", 14, 70,
      "Named after Malaysian botanist S.C. Chai. Compact Malaysian native with "
      "attractive patterned foliage."),
@@ -1395,66 +1380,66 @@ SPECIES = [
      "Easy", 10, 45,
      "Cucullata cultivar with delicate white edging or lace-like variegation on "
      "the leaf margins. Elegant and compact."),
-    ("culionensis", "Culion Alocasia", "Alocasia Culionensis",
+    ("culionensis", "Culion", "Alocasia Culionensis",
      "Moderate", 14, 70,
      "From Culion Island in the Philippines. Compact Philippine endemic with "
      "attractive lobed leaves."),
 
     # D
 
-    ("decipiens", "Deceptive Alocasia", "Alocasia Decipiens",
+    ("decipiens", "Deceptive", "Alocasia Decipiens",
      "Moderate", 12, 60,
      "Decipiens means 'deceptive' — resembles other species closely. "
      "Compact Southeast Asian native."),
-    ("decumbens", "Decumbent Alocasia", "Alocasia Decumbens",
+    ("decumbens", "Decumbent", "Alocasia Decumbens",
      "Moderate", 12, 60,
      "Decumbens means lying down — grows with a prostrate or low-spreading habit "
      "rather than upright. Unusual growth form."),
-    ("devansayana", "Devansayan Alocasia", "Alocasia Devansayana",
+    ("devansayana", "Devansayan", "Alocasia Devansayana",
      "Moderate", 14, 70,
      "Philippine or Indonesian species with well-defined lobed leaves. "
      "Named after a plant collector or botanist."),
 
     # E–F
 
-    ("evrardii", "Evrard's Alocasia", "Alocasia Evrardii",
+    ("evrardii", "Evrard's", "Alocasia Evrardii",
      "Moderate", 12, 60,
      "Named after French botanist M. Evrard. Vietnamese native with compact "
      "arrowhead leaves."),
-    ("fallax", "Fallax Alocasia", "Alocasia Fallax",
+    ("fallax", "Fallax", "Alocasia Fallax",
      "Moderate", 12, 60,
      "Fallax means 'deceptive' or 'misleading' — resembles a different genus "
      "at first glance. Compact and unusual."),
-    ("farisii", "Faris's Alocasia", "Alocasia Farisii",
+    ("farisii", "Faris's", "Alocasia Farisii",
      "Moderate", 14, 70,
      "Named after Faris; Malaysian native with attractive glossy leaves."),
-    ("flabellifera", "Fan Alocasia", "Alocasia Flabellifera",
+    ("flabellifera", "Fan", "Alocasia Flabellifera",
      "Moderate", 12, 60,
      "Flabellifera means 'fan-bearing' — leaves or leaf arrangement has a "
      "distinctive fan-like spread."),
-    ("flemingiana", "Fleming's Alocasia", "Alocasia Flemingiana",
+    ("flemingiana", "Fleming's", "Alocasia Flemingiana",
      "Moderate", 12, 60,
      "Named after Fleming. Philippine native with compact, elegant leaf form."),
-    ("fornicata", "Arched Alocasia", "Alocasia Fornicata",
+    ("fornicata", "Arched", "Alocasia Fornicata",
      "Easy", 10, 50,
      "Fornicata means 'arched' — petioles curve in a pronounced arch. "
      "Vigorous, easy-to-grow tropical species."),
 
     # G–H
 
-    ("grata", "Grata Alocasia", "Alocasia Grata",
+    ("grata", "Grata", "Alocasia Grata",
      "Moderate", 12, 60,
      "Grata means 'pleasing' or 'grateful' — an attractive Southeast Asian species "
      "with glossy, well-formed leaves."),
-    ("hainanica", "Hainan Alocasia", "Alocasia Hainanica",
+    ("hainanica", "Hainan", "Alocasia Hainanica",
      "Moderate", 12, 60,
      "From Hainan Island, southern China. One of the few Chinese Alocasia species; "
      "handles slightly cooler temperatures than most."),
-    ("hararganjensis", "Hararganj Alocasia", "Alocasia Hararganjensis",
+    ("hararganjensis", "Hararganj", "Alocasia Hararganjensis",
      "Moderate", 12, 60,
      "From the Hararganj region of South Asia. Compact species with broad "
      "arrowhead leaves."),
-    ("heterophylla", "Variable-Leaf Alocasia", "Alocasia Heterophylla",
+    ("heterophylla", "Variable-Leaf", "Alocasia Heterophylla",
      "Moderate", 12, 65,
      "Heterophylla means 'variable leaves' — different leaves on the same plant "
      "can look quite distinct. Parent of Dragon's Breath and Shattered Glass."),
@@ -1478,11 +1463,11 @@ SPECIES = [
      "Moderate", 14, 70,
      "Silver-toned heterophylla cultivar with a pronounced metallic sheen across "
      "the leaf surfaces."),
-    ("hollrungii", "Hollrung's Alocasia", "Alocasia Hollrungii",
+    ("hollrungii", "Hollrung's", "Alocasia Hollrungii",
      "Moderate", 12, 60,
      "Named after German botanist M. Hollrung. New Guinea native with tropical, "
      "robust arrowhead leaves."),
-    ("hypoleuca", "Pale-Backed Alocasia", "Alocasia Hypoleuca",
+    ("hypoleuca", "Pale-Backed", "Alocasia Hypoleuca",
      "Moderate", 12, 60,
      "Hypoleuca means 'pale below' — the leaf undersides are noticeably lighter or "
      "whitish compared to the dark upper surfaces."),
@@ -1502,11 +1487,11 @@ SPECIES = [
      "Infernalis means 'infernal' — one of the darkest Alocasias in existence. "
      "Near-black velvet leaves on a compact jewel plant. Extremely collectible; "
      "needs 65%+ humidity. Corms: $15-45, Pups: $45-100, Plants: $85-180."),
-    ("inornata", "Plain Alocasia", "Alocasia Inornata",
+    ("inornata", "Plain", "Alocasia Inornata",
      "Moderate", 10, 55,
      "Inornata means 'unadorned' — simple, elegant plain leaves without dramatic "
      "markings. Clean and architectural."),
-    ("jiewhoei", "Jiewhoei's Alocasia", "Alocasia Jiewhoei",
+    ("jiewhoei", "Jiewhoei's", "Alocasia Jiewhoei",
      "Difficult", 18, 120,
      "Named after J.W. Jiewhoei, a renowned Borneo plant collector. Compact "
      "jewel-type species with distinctive textured leaves. "
@@ -1518,22 +1503,22 @@ SPECIES = [
      "Moderate", 10, 55,
      "Lancifolia means 'lance-shaped leaves' — long, narrow, pointed arrowhead "
      "leaves on tall upright stems. Elegant Philippine native."),
-    ("lecomtei", "Lecomte's Alocasia", "Alocasia Lecomtei",
+    ("lecomtei", "Lecomte's", "Alocasia Lecomtei",
      "Moderate", 12, 60,
      "Named after French botanist Henri F. Lecomte, who botanised in Indochina. "
      "Vietnamese native with well-formed arrowhead leaves."),
-    ("lihengiae", "Li Heng's Alocasia", "Alocasia Lihengiae",
+    ("lihengiae", "Li Heng's", "Alocasia Lihengiae",
      "Moderate", 14, 70,
      "Named after Chinese botanist Li Heng. One of the Chinese Alocasia species; "
      "relatively rare in cultivation."),
 
     # M
 
-    ("maquilingensis", "Maquiling Alocasia", "Alocasia Maquilingensis",
+    ("maquilingensis", "Maquiling", "Alocasia Maquilingensis",
      "Moderate", 15, 75,
      "From Mount Maquiling, Laguna, Philippines — one of the most biodiverse "
      "areas in Southeast Asia. Compact Philippine endemic."),
-    ("megawatiae", "Megawati's Alocasia", "Alocasia Megawatiae",
+    ("megawatiae", "Megawati's", "Alocasia Megawatiae",
      "Moderate", 15, 80,
      "Named after Indonesian President Megawati Sukarnoputri. Indonesian endemic "
      "with bold, commanding foliage — a regal species."),
@@ -1542,28 +1527,28 @@ SPECIES = [
      "The standard trade name for the deep-green velvety form of micholitziana. "
      "Deep-green leaves with glowing white veins; widely sold as 'Green Velvet' "
      "rather than 'Frydek'. Corms: $8-18, Pups: $18-40, Plants: $35-75."),
-    ("minuscula", "Miniature Alocasia", "Alocasia Minuscula",
+    ("minuscula", "Miniature", "Alocasia Minuscula",
      "Difficult", 18, 130,
      "Minuscula means 'very small' — one of the tiniest Alocasia species. "
      "Tiny jewel form; highly collectible and needs expert humid conditions. "
      "Corms: $12-30, Pups: $30-68, Plants: $58-130."),
-    ("monticola", "Mountain Alocasia", "Alocasia Monticola",
+    ("monticola", "Mountain", "Alocasia Monticola",
      "Moderate", 14, 70,
      "Monticola means 'mountain-dwelling' — grows at higher elevations. "
      "Handles slightly cooler conditions than lowland species."),
 
     # N
 
-    ("navicularis", "Boat Alocasia", "Alocasia Navicularis",
+    ("navicularis", "Boat", "Alocasia Navicularis",
      "Difficult", 20, 150,
      "Navicularis means 'boat-shaped' — leaves fold into a distinct boat form. "
      "Unusual jewel species from Borneo. "
      "Corms: $14-36, Pups: $36-80, Plants: $65-150."),
-    ("nicolsonii", "Nicolson's Alocasia", "Alocasia Nicolsonii",
+    ("nicolsonii", "Nicolson's", "Alocasia Nicolsonii",
      "Moderate", 14, 70,
      "Named after botanist D.H. Nicolson, who contributed significantly to "
      "Araceae taxonomy. Southeast Asian native."),
-    ("nycteris", "Bat-Ear Alocasia", "Alocasia Nycteris",
+    ("nycteris", "Bat-Ear", "Alocasia Nycteris",
      "Moderate", 15, 75,
      "Nycteris means 'bat' — the leaf shape resembles bat ears. "
      "Unusual and collectible compact species."),
@@ -1589,7 +1574,7 @@ SPECIES = [
 
     # P
 
-    ("pangeran", "Prince Alocasia", "Alocasia Pangeran",
+    ("pangeran", "Prince", "Alocasia Pangeran",
      "Moderate", 14, 70,
      "Pangeran means 'prince' in Indonesian/Malay. Regal-looking compact species "
      "with bold foliage."),
@@ -1605,7 +1590,7 @@ SPECIES = [
      "Moderate", 18, 100,
      "Large cultivar of perakensis with pronounced silver-grey leaf tones. "
      "Combines the cool highland constitution of perakensis with impressive scale."),
-    ("portei", "Porte's Alocasia", "Alocasia Portei",
+    ("portei", "Porte's", "Alocasia Portei",
      "Easy", 12, 60,
      "Named after Porte. Large tropical species with deeply lobed, dramatic leaves. "
      "Fast-growing and bold."),
@@ -1621,26 +1606,26 @@ SPECIES = [
      "Moderate", 15, 80,
      "Pseudo-sanderiana means 'false sanderiana' — resembles the Kris Plant "
      "closely but is a distinct species."),
-    ("puncakborneensis", "Borneo Peak Alocasia", "Alocasia Puncakborneensis",
+    ("puncakborneensis", "Borneo Peak", "Alocasia Puncakborneensis",
      "Difficult", 20, 140,
      "From the mountain peaks (puncak) of Borneo. Montane species adapted to "
      "cool, misty conditions. Rare collector species."),
-    ("puteri", "Princess Alocasia", "Alocasia Puteri",
+    ("puteri", "Princess", "Alocasia Puteri",
      "Moderate", 14, 70,
      "Puteri means 'princess' in Malay. Malaysian native with elegant, "
      "well-formed arrowhead leaves."),
-    ("pyrospatha", "Fire-Spathe Alocasia", "Alocasia Pyrospatha",
+    ("pyrospatha", "Fire-Spathe", "Alocasia Pyrospatha",
      "Moderate", 15, 75,
      "Pyrospatha means 'fire-spathe' — the inflorescence spathe has vivid "
      "red or orange tones. Ornamental both for leaves and blooms."),
 
     # R
 
-    ("ramosii", "Ramos's Alocasia", "Alocasia Ramosii",
+    ("ramosii", "Ramos's", "Alocasia Ramosii",
      "Moderate", 14, 70,
      "Named after Filipino botanist Maximo Ramos. Philippine endemic with "
      "compact, well-defined lobed leaves."),
-    ("reginae", "Queen Alocasia", "Alocasia Reginae",
+    ("reginae", "Queen", "Alocasia Reginae",
      "Difficult", 22, 200,
      "Reginae means 'of the queen' — one of the most spectacular jewel Alocasias. "
      "Velvety, deeply ribbed dark leaves with a regal bearing. "
@@ -1664,56 +1649,56 @@ SPECIES = [
      "Silver-toned reginula cultivar — pale silver-grey velvety leaves with "
      "a moonlit appearance. Compact jewel alocasia. "
      "Corms: $12-30, Pups: $30-70, Plants: $60-150."),
-    ("ridleyi", "Ridley's Alocasia", "Alocasia Ridleyi",
+    ("ridleyi", "Ridley's", "Alocasia Ridleyi",
      "Moderate", 14, 75,
      "Named after H.N. Ridley, first Director of Singapore Botanic Gardens "
      "and Rubber industry pioneer. Malaysian endemic."),
-    ("rivularis", "Stream Alocasia", "Alocasia Rivularis",
+    ("rivularis", "Stream", "Alocasia Rivularis",
      "Moderate", 12, 60,
      "Rivularis means 'of streams' — naturally grows along stream banks. "
      "Tolerates more moisture than most Alocasias."),
 
     # S
 
-    ("salarkhanii", "Salarkhan's Alocasia", "Alocasia Salarkhanii",
+    ("salarkhanii", "Salarkhan's", "Alocasia Salarkhanii",
      "Moderate", 15, 75,
      "Named after Salarkhan. Malaysian endemic with compact, distinctively "
      "patterned foliage."),
-    ("sarawakensis", "Sarawak Alocasia", "Alocasia Sarawakensis",
+    ("sarawakensis", "Sarawak", "Alocasia Sarawakensis",
      "Moderate", 15, 80,
      "From Sarawak, Malaysian Borneo. Named for its biodiverse origin; "
      "compact with attractive foliage."),
-    ("scabriuscula", "Rough Alocasia", "Alocasia Scabriuscula",
+    ("scabriuscula", "Rough", "Alocasia Scabriuscula",
      "Moderate", 12, 60,
      "Scabriuscula means 'slightly rough' — leaf surface has a subtle texture "
      "rather than being completely smooth."),
-    ("simonsiana", "Simon's Alocasia", "Alocasia Simonsiana",
+    ("simonsiana", "Simon's", "Alocasia Simonsiana",
      "Moderate", 14, 70,
      "Named after Nanna Simons. Compact species with attractive vein patterning; "
      "lesser-known but appealing collector plant."),
-    ("suhirmaniana", "Suhirman's Alocasia", "Alocasia Suhirmaniana",
+    ("suhirmaniana", "Suhirman's", "Alocasia Suhirmaniana",
      "Moderate", 14, 70,
      "Named after Suhirman; Indonesian endemic with compact, well-formed leaves."),
 
     # T–Z
 
-    ("tandurusa", "Tandurusa Alocasia", "Alocasia Tandurusa",
+    ("tandurusa", "Tandurusa", "Alocasia Tandurusa",
      "Moderate", 14, 70,
      "Named after a location in Indonesia (Tandurusa, North Sulawesi). "
      "Sulawesi endemic with distinctive leaf form."),
-    ("venusta", "Beautiful Alocasia", "Alocasia Venusta",
+    ("venusta", "Beautiful", "Alocasia Venusta",
      "Moderate", 15, 80,
      "Venusta means 'beautiful' or 'charming' — exceptionally attractive "
      "species with elegant, graceful foliage."),
-    ("vietnamensis", "Vietnamese Alocasia", "Alocasia Vietnamensis",
+    ("vietnamensis", "Vietnamese", "Alocasia Vietnamensis",
      "Moderate", 12, 65,
      "From Vietnam. Compact species with well-formed arrowhead leaves; "
      "tolerates slightly cooler conditions than tropical species."),
-    ("wongii", "Wong's Alocasia", "Alocasia Wongii",
+    ("wongii", "Wong's", "Alocasia Wongii",
      "Moderate", 14, 70,
      "Named after Malaysian botanist S.Y. Wong. Malaysian endemic with "
      "compact, attractive foliage."),
-    ("yunqiana", "Yunqi's Alocasia", "Alocasia Yunqiana",
+    ("yunqiana", "Yunqi's", "Alocasia Yunqiana",
      "Moderate", 14, 70,
      "Named after Chinese botanist Yun Qi. One of the Chinese Alocasia species; "
      "relatively rare in cultivation outside Asia."),
