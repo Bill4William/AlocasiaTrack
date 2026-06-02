@@ -18,9 +18,9 @@ METADATA = {
     "name":        "Alocasia",
     "genus":       "Alocasia",
     "emoji":       "🌿",
-    "description": "230+ Alocasia species, cultivars and hybrids — "
-                   "Easy through Difficult care levels. Includes the complete "
-                   "Aroidpedia hybrids list.",
+    "description": "330 Alocasia species, cultivars and hybrids — "
+                   "Full Aroidpedia species, cultivars and hybrids lists. "
+                   "Easy through Difficult care levels.",
     "version":     "1.1",
     "source":      "https://www.aroidpedia.com/alocasia",
     "author":      "AlocasiaTrack built-in",
@@ -1312,4 +1312,445 @@ SPECIES = [
     ("'Zulu Mask'", "Zulu Mask", "Alocasia Zulu Mask",
      "Moderate", 14, 65,
      "Named for the decorative masks of Zulu culture. Bold, mask-like leaf patterning."),
+
+    # ══ SPECIES & CULTIVARS — from Aroidpedia Species & Cultivars page ════════
+    # A
+
+    ("acuminata", "Acuminata", "Alocasia Acuminata",
+     "Moderate", 10, 55,
+     "Compact species with pointed (acuminate) arrowhead leaves. "
+     "Native to Southeast Asia; grows well in shaded, humid conditions."),
+    ("aequiloba", "Aequiloba", "Alocasia Aequiloba",
+     "Moderate", 12, 60,
+     "Equal-lobed leaves (aequiloba = equal lobes). Philippine native with "
+     "symmetrical, well-balanced leaf form."),
+    ("aequiloba 'Gold Dust'", "Gold Dust", "Alocasia Gold Dust",
+     "Moderate", 14, 70,
+     "Gold-speckled cultivar of aequiloba. Yellow flecks across dark-green leaves "
+     "give a gold-dusted appearance."),
+    ("alba", "White Taro", "Alocasia Alba",
+     "Moderate", 10, 55,
+     "Alba means 'white' — notable for pale leaf coloring or white-marked stems. "
+     "Compact and manageable Southeast Asian species."),
+    ("alba 'Silver'", "Silver Alba", "Alocasia Alba Silver",
+     "Moderate", 12, 60,
+     "Silver-toned form of alba with enhanced metallic sheen across the leaf surfaces."),
+    ("ampunganensis", "Ampungan Taro", "Alocasia Ampunganensis",
+     "Moderate", 15, 75,
+     "From the Ampungan region of Sumatra, Indonesia. Relatively rare collector species."),
+    ("arifolia", "Arum-Leaf Alocasia", "Alocasia Arifolia",
+     "Moderate", 10, 55,
+     "Arum-shaped (arifolia = arum-leaved) compact leaves. Reliable Southeast Asian species."),
+    ("atropurpurea", "Dark Purple", "Alocasia Atropurpurea",
+     "Moderate", 14, 70,
+     "Atropurpurea means 'dark purple' — deep purple-toned leaves and petioles. "
+     "Bold colour that intensifies in bright indirect light."),
+
+    # B
+
+    ("balgooyi", "Balgooy's Alocasia", "Alocasia Balgooyi",
+     "Moderate", 15, 75,
+     "Named after Dutch botanist M.M.J. van Balgooy. Compact Borneo native with "
+     "distinctive thick leathery leaves."),
+    ("becarii", "Beccari's Alocasia", "Alocasia Becarii",
+     "Moderate", 15, 75,
+     "Named after Italian botanist Odoardo Beccari, who collected extensively in Borneo. "
+     "Glossy arrowhead leaves with prominent veins."),
+    ("boa", "Boa Alocasia", "Alocasia Boa",
+     "Easy", 12, 65,
+     "Dramatically thick, snake-like petioles (named after the boa constrictor). "
+     "Large tropical leaves on robust constricted stems."),
+    ("boyceana", "Boyce's Alocasia", "Alocasia Boyceana",
+     "Moderate", 15, 75,
+     "Named after Aroid specialist Peter Boyce. Distinctive species with uniquely "
+     "shaped leaves; relatively rare in cultivation."),
+
+    # C
+
+    ("cadieri", "Cadiere's Alocasia", "Alocasia Cadieri",
+     "Moderate", 12, 60,
+     "Named after Léopold Cadière, French missionary and naturalist in Vietnam. "
+     "Vietnamese native with elegant arrowhead leaves."),
+    ("celebica", "Sulawesi Taro", "Alocasia Celebica",
+     "Moderate", 12, 60,
+     "From Sulawesi (historically Celebes). Upright growing species with bold "
+     "glossy leaves; reliable moderate grower."),
+    ("chaii", "Chai's Alocasia", "Alocasia Chaii",
+     "Moderate", 14, 70,
+     "Named after Malaysian botanist S.C. Chai. Compact Malaysian native with "
+     "attractive patterned foliage."),
+    ("cucullata 'Banana Split'", "Banana Split", "Alocasia Banana Split",
+     "Easy", 8, 40,
+     "Cucullata cultivar with cream-and-green variegation resembling banana coloring. "
+     "Cheerful and compact; shares the easy care of the base species."),
+    ("cucullata 'Crinkles'", "Crinkles", "Alocasia Crinkles",
+     "Easy", 8, 40,
+     "Cucullata cultivar with distinctly crinkled, ruffled leaf margins. "
+     "Very compact and easy to grow."),
+    ("cucullata 'Moon Landing'", "Moon Landing", "Alocasia Moon Landing",
+     "Easy", 10, 45,
+     "Cucullata cultivar with unusual silvery or pale-toned leaves suggesting a "
+     "moonlit surface. Compact and reliable."),
+    ("cucullata 'White Lace'", "White Lace", "Alocasia White Lace",
+     "Easy", 10, 45,
+     "Cucullata cultivar with delicate white edging or lace-like variegation on "
+     "the leaf margins. Elegant and compact."),
+    ("culionensis", "Culion Alocasia", "Alocasia Culionensis",
+     "Moderate", 14, 70,
+     "From Culion Island in the Philippines. Compact Philippine endemic with "
+     "attractive lobed leaves."),
+
+    # D
+
+    ("decipiens", "Deceptive Alocasia", "Alocasia Decipiens",
+     "Moderate", 12, 60,
+     "Decipiens means 'deceptive' — resembles other species closely. "
+     "Compact Southeast Asian native."),
+    ("decumbens", "Decumbent Alocasia", "Alocasia Decumbens",
+     "Moderate", 12, 60,
+     "Decumbens means lying down — grows with a prostrate or low-spreading habit "
+     "rather than upright. Unusual growth form."),
+    ("devansayana", "Devansayan Alocasia", "Alocasia Devansayana",
+     "Moderate", 14, 70,
+     "Philippine or Indonesian species with well-defined lobed leaves. "
+     "Named after a plant collector or botanist."),
+
+    # E–F
+
+    ("evrardii", "Evrard's Alocasia", "Alocasia Evrardii",
+     "Moderate", 12, 60,
+     "Named after French botanist M. Evrard. Vietnamese native with compact "
+     "arrowhead leaves."),
+    ("fallax", "Fallax Alocasia", "Alocasia Fallax",
+     "Moderate", 12, 60,
+     "Fallax means 'deceptive' or 'misleading' — resembles a different genus "
+     "at first glance. Compact and unusual."),
+    ("farisii", "Faris's Alocasia", "Alocasia Farisii",
+     "Moderate", 14, 70,
+     "Named after Faris; Malaysian native with attractive glossy leaves."),
+    ("flabellifera", "Fan Alocasia", "Alocasia Flabellifera",
+     "Moderate", 12, 60,
+     "Flabellifera means 'fan-bearing' — leaves or leaf arrangement has a "
+     "distinctive fan-like spread."),
+    ("flemingiana", "Fleming's Alocasia", "Alocasia Flemingiana",
+     "Moderate", 12, 60,
+     "Named after Fleming. Philippine native with compact, elegant leaf form."),
+    ("fornicata", "Arched Alocasia", "Alocasia Fornicata",
+     "Easy", 10, 50,
+     "Fornicata means 'arched' — petioles curve in a pronounced arch. "
+     "Vigorous, easy-to-grow tropical species."),
+
+    # G–H
+
+    ("grata", "Grata Alocasia", "Alocasia Grata",
+     "Moderate", 12, 60,
+     "Grata means 'pleasing' or 'grateful' — an attractive Southeast Asian species "
+     "with glossy, well-formed leaves."),
+    ("hainanica", "Hainan Alocasia", "Alocasia Hainanica",
+     "Moderate", 12, 60,
+     "From Hainan Island, southern China. One of the few Chinese Alocasia species; "
+     "handles slightly cooler temperatures than most."),
+    ("hararganjensis", "Hararganj Alocasia", "Alocasia Hararganjensis",
+     "Moderate", 12, 60,
+     "From the Hararganj region of South Asia. Compact species with broad "
+     "arrowhead leaves."),
+    ("heterophylla", "Variable-Leaf Alocasia", "Alocasia Heterophylla",
+     "Moderate", 12, 65,
+     "Heterophylla means 'variable leaves' — different leaves on the same plant "
+     "can look quite distinct. Parent of Dragon's Breath and Shattered Glass."),
+    ("heterophylla 'Bahamut'", "Bahamut", "Alocasia Bahamut",
+     "Moderate", 15, 80,
+     "Named after the mythical dragon Bahamut. Large-form heterophylla cultivar "
+     "with imposing, bold leaves."),
+    ("heterophylla 'Green Veins'", "Green Veins", "Alocasia Green Veins",
+     "Moderate", 12, 65,
+     "Heterophylla cultivar with especially prominent, bright green vein patterning "
+     "against dark leaf surfaces."),
+    ("heterophylla 'Green'", "Solid Green", "Alocasia Heterophylla Green",
+     "Moderate", 12, 60,
+     "Solid green form of heterophylla without the burgundy undersides. "
+     "Bold and vigorous."),
+    ("heterophylla 'Silver Kris'", "Silver Kris", "Alocasia Silver Kris",
+     "Moderate", 15, 75,
+     "Named after the kris (Javanese ceremonial dagger). Silver-toned heterophylla "
+     "cultivar with metallic leaf surfaces."),
+    ("heterophylla 'Silver'", "Silver Heterophylla", "Alocasia Heterophylla Silver",
+     "Moderate", 14, 70,
+     "Silver-toned heterophylla cultivar with a pronounced metallic sheen across "
+     "the leaf surfaces."),
+    ("hollrungii", "Hollrung's Alocasia", "Alocasia Hollrungii",
+     "Moderate", 12, 60,
+     "Named after German botanist M. Hollrung. New Guinea native with tropical, "
+     "robust arrowhead leaves."),
+    ("hypoleuca", "Pale-Backed Alocasia", "Alocasia Hypoleuca",
+     "Moderate", 12, 60,
+     "Hypoleuca means 'pale below' — the leaf undersides are noticeably lighter or "
+     "whitish compared to the dark upper surfaces."),
+    ("hypoleuca 'Mahaphetra'", "Mahaphetra", "Alocasia Mahaphetra",
+     "Moderate", 14, 70,
+     "Cultivar of hypoleuca with distinctive features named 'Mahaphetra'. "
+     "Enhanced pale-backed character with collector appeal."),
+
+    # I–J
+
+    ("indica", "Indian Taro", "Alocasia Indica",
+     "Easy", 8, 45,
+     "Large species from India and South Asia. Historically used as a food crop. "
+     "Note: the name indica is disputed and may represent multiple species."),
+    ("infernalis", "Black Magic", "Alocasia Infernalis",
+     "Difficult", 20, 180,
+     "Infernalis means 'infernal' — one of the darkest Alocasias in existence. "
+     "Near-black velvet leaves on a compact jewel plant. Extremely collectible; "
+     "needs 65%+ humidity. Corms: $15-45, Pups: $45-100, Plants: $85-180."),
+    ("inornata", "Plain Alocasia", "Alocasia Inornata",
+     "Moderate", 10, 55,
+     "Inornata means 'unadorned' — simple, elegant plain leaves without dramatic "
+     "markings. Clean and architectural."),
+    ("jiewhoei", "Jiewhoei's Alocasia", "Alocasia Jiewhoei",
+     "Difficult", 18, 120,
+     "Named after J.W. Jiewhoei, a renowned Borneo plant collector. Compact "
+     "jewel-type species with distinctive textured leaves. "
+     "Corms: $12-30, Pups: $30-65, Plants: $55-120."),
+
+    # L
+
+    ("lancifolia", "Lance-Leaf Taro", "Alocasia Lancifolia",
+     "Moderate", 10, 55,
+     "Lancifolia means 'lance-shaped leaves' — long, narrow, pointed arrowhead "
+     "leaves on tall upright stems. Elegant Philippine native."),
+    ("lecomtei", "Lecomte's Alocasia", "Alocasia Lecomtei",
+     "Moderate", 12, 60,
+     "Named after French botanist Henri F. Lecomte, who botanised in Indochina. "
+     "Vietnamese native with well-formed arrowhead leaves."),
+    ("lihengiae", "Li Heng's Alocasia", "Alocasia Lihengiae",
+     "Moderate", 14, 70,
+     "Named after Chinese botanist Li Heng. One of the Chinese Alocasia species; "
+     "relatively rare in cultivation."),
+
+    # M
+
+    ("maquilingensis", "Maquiling Alocasia", "Alocasia Maquilingensis",
+     "Moderate", 15, 75,
+     "From Mount Maquiling, Laguna, Philippines — one of the most biodiverse "
+     "areas in Southeast Asia. Compact Philippine endemic."),
+    ("megawatiae", "Megawati's Alocasia", "Alocasia Megawatiae",
+     "Moderate", 15, 80,
+     "Named after Indonesian President Megawati Sukarnoputri. Indonesian endemic "
+     "with bold, commanding foliage — a regal species."),
+    ("micholitziana 'Green Velvet'", "Green Velvet", "Alocasia Green Velvet",
+     "Moderate", 12, 75,
+     "The standard trade name for the deep-green velvety form of micholitziana. "
+     "Deep-green leaves with glowing white veins; widely sold as 'Green Velvet' "
+     "rather than 'Frydek'. Corms: $8-18, Pups: $18-40, Plants: $35-75."),
+    ("minuscula", "Miniature Alocasia", "Alocasia Minuscula",
+     "Difficult", 18, 130,
+     "Minuscula means 'very small' — one of the tiniest Alocasia species. "
+     "Tiny jewel form; highly collectible and needs expert humid conditions. "
+     "Corms: $12-30, Pups: $30-68, Plants: $58-130."),
+    ("monticola", "Mountain Alocasia", "Alocasia Monticola",
+     "Moderate", 14, 70,
+     "Monticola means 'mountain-dwelling' — grows at higher elevations. "
+     "Handles slightly cooler conditions than lowland species."),
+
+    # N
+
+    ("navicularis", "Boat Alocasia", "Alocasia Navicularis",
+     "Difficult", 20, 150,
+     "Navicularis means 'boat-shaped' — leaves fold into a distinct boat form. "
+     "Unusual jewel species from Borneo. "
+     "Corms: $14-36, Pups: $36-80, Plants: $65-150."),
+    ("nicolsonii", "Nicolson's Alocasia", "Alocasia Nicolsonii",
+     "Moderate", 14, 70,
+     "Named after botanist D.H. Nicolson, who contributed significantly to "
+     "Araceae taxonomy. Southeast Asian native."),
+    ("nycteris", "Bat-Ear Alocasia", "Alocasia Nycteris",
+     "Moderate", 15, 75,
+     "Nycteris means 'bat' — the leaf shape resembles bat ears. "
+     "Unusual and collectible compact species."),
+
+    # O (odora cultivars)
+
+    ("odora 'Blue'", "Blue Odora", "Alocasia Blue Odora",
+     "Easy", 10, 50,
+     "Odora cultivar with a distinctive blue-grey cast to the large paddle-shaped leaves. "
+     "Retains the vigour and fragrant flowers of the base species."),
+    ("odora 'California'", "California Odora", "Alocasia California",
+     "Moderate", 10, 55,
+     "Deeply lobed odora cultivar with olive-green leaves and prominent veins. "
+     "Vigorous and easy to manage; developed in California."),
+    ("odora 'Indian/Architecture'", "Indian Architecture Odora", "Alocasia Indian Architecture",
+     "Easy", 10, 50,
+     "Architectural odora cultivar with especially bold, upright structure. "
+     "Well-suited to large interior spaces."),
+    ("odora 'Okinawa Silver'", "Okinawa Silver", "Alocasia Okinawa Silver",
+     "Easy", 12, 55,
+     "Odora cultivar from Okinawa with silvery-grey leaf tones. "
+     "Hardy and vigorous like the base species."),
+
+    # P
+
+    ("pangeran", "Prince Alocasia", "Alocasia Pangeran",
+     "Moderate", 14, 70,
+     "Pangeran means 'prince' in Indonesian/Malay. Regal-looking compact species "
+     "with bold foliage."),
+    ("peltata", "Shield Taro", "Alocasia Peltata",
+     "Moderate", 12, 65,
+     "Peltata means 'shield-shaped' — leaves attach at or near the centre "
+     "(peltate attachment) rather than at the base. Unusual and elegant."),
+    ("peltata 'Silver Grey'", "Silver Grey", "Alocasia Silver Grey",
+     "Moderate", 15, 75,
+     "Peltata cultivar with silver-grey leaf tones. "
+     "The peltate attachment combined with metallic colouring is striking."),
+    ("perakensis 'Silver Giant'", "Silver Giant", "Alocasia Silver Giant",
+     "Moderate", 18, 100,
+     "Large cultivar of perakensis with pronounced silver-grey leaf tones. "
+     "Combines the cool highland constitution of perakensis with impressive scale."),
+    ("portei", "Porte's Alocasia", "Alocasia Portei",
+     "Easy", 12, 60,
+     "Named after Porte. Large tropical species with deeply lobed, dramatic leaves. "
+     "Fast-growing and bold."),
+    ("princeps 'Candy Sticks'", "Candy Sticks", "Alocasia Candy Sticks",
+     "Moderate", 15, 80,
+     "Princeps cultivar with distinctive candy-striped petioles — alternating "
+     "bands of light and dark on the stem. Unique and collectible."),
+    ("principiculus", "Little Prince", "Alocasia Principiculus",
+     "Moderate", 14, 70,
+     "Principiculus means 'little prince' — compact species related to princeps. "
+     "Smaller, more manageable form of the princeps type."),
+    ("pseudosanderiana", "False Kris Plant", "Alocasia Pseudosanderiana",
+     "Moderate", 15, 80,
+     "Pseudo-sanderiana means 'false sanderiana' — resembles the Kris Plant "
+     "closely but is a distinct species."),
+    ("puncakborneensis", "Borneo Peak Alocasia", "Alocasia Puncakborneensis",
+     "Difficult", 20, 140,
+     "From the mountain peaks (puncak) of Borneo. Montane species adapted to "
+     "cool, misty conditions. Rare collector species."),
+    ("puteri", "Princess Alocasia", "Alocasia Puteri",
+     "Moderate", 14, 70,
+     "Puteri means 'princess' in Malay. Malaysian native with elegant, "
+     "well-formed arrowhead leaves."),
+    ("pyrospatha", "Fire-Spathe Alocasia", "Alocasia Pyrospatha",
+     "Moderate", 15, 75,
+     "Pyrospatha means 'fire-spathe' — the inflorescence spathe has vivid "
+     "red or orange tones. Ornamental both for leaves and blooms."),
+
+    # R
+
+    ("ramosii", "Ramos's Alocasia", "Alocasia Ramosii",
+     "Moderate", 14, 70,
+     "Named after Filipino botanist Maximo Ramos. Philippine endemic with "
+     "compact, well-defined lobed leaves."),
+    ("reginae", "Queen Alocasia", "Alocasia Reginae",
+     "Difficult", 22, 200,
+     "Reginae means 'of the queen' — one of the most spectacular jewel Alocasias. "
+     "Velvety, deeply ribbed dark leaves with a regal bearing. "
+     "From Sarawak, Borneo. Needs 65%+ humidity. "
+     "Corms: $18-50, Pups: $50-110, Plants: $90-200."),
+    ("reginae 'Elaine'", "Elaine", "Alocasia Reginae Elaine",
+     "Difficult", 22, 180,
+     "Named cultivar of reginae. Same spectacular velvety dark leaves with "
+     "a slightly different form or leaf texture."),
+    ("reginae 'Miri'", "Miri", "Alocasia Reginae Miri",
+     "Difficult", 22, 180,
+     "Named after Miri, Sarawak — the city near the reginae's natural habitat. "
+     "Jewel collector cultivar with deeply ridged leaves."),
+    ("reginula 'Black Ninja'", "Black Ninja", "Alocasia Black Ninja",
+     "Difficult", 15, 150,
+     "Very dark form of the reginula group, slightly more vigorous than Black Velvet. "
+     "Near-black velvety leaves with bold silver veins. "
+     "Corms: $12-30, Pups: $30-70, Plants: $60-150."),
+    ("reginula 'Silver Velvet'", "Silver Velvet", "Alocasia Silver Velvet",
+     "Difficult", 15, 150,
+     "Silver-toned reginula cultivar — pale silver-grey velvety leaves with "
+     "a moonlit appearance. Compact jewel alocasia. "
+     "Corms: $12-30, Pups: $30-70, Plants: $60-150."),
+    ("ridleyi", "Ridley's Alocasia", "Alocasia Ridleyi",
+     "Moderate", 14, 75,
+     "Named after H.N. Ridley, first Director of Singapore Botanic Gardens "
+     "and Rubber industry pioneer. Malaysian endemic."),
+    ("rivularis", "Stream Alocasia", "Alocasia Rivularis",
+     "Moderate", 12, 60,
+     "Rivularis means 'of streams' — naturally grows along stream banks. "
+     "Tolerates more moisture than most Alocasias."),
+
+    # S
+
+    ("salarkhanii", "Salarkhan's Alocasia", "Alocasia Salarkhanii",
+     "Moderate", 15, 75,
+     "Named after Salarkhan. Malaysian endemic with compact, distinctively "
+     "patterned foliage."),
+    ("sarawakensis", "Sarawak Alocasia", "Alocasia Sarawakensis",
+     "Moderate", 15, 80,
+     "From Sarawak, Malaysian Borneo. Named for its biodiverse origin; "
+     "compact with attractive foliage."),
+    ("scabriuscula", "Rough Alocasia", "Alocasia Scabriuscula",
+     "Moderate", 12, 60,
+     "Scabriuscula means 'slightly rough' — leaf surface has a subtle texture "
+     "rather than being completely smooth."),
+    ("simonsiana", "Simon's Alocasia", "Alocasia Simonsiana",
+     "Moderate", 14, 70,
+     "Named after Nanna Simons. Compact species with attractive vein patterning; "
+     "lesser-known but appealing collector plant."),
+    ("suhirmaniana", "Suhirman's Alocasia", "Alocasia Suhirmaniana",
+     "Moderate", 14, 70,
+     "Named after Suhirman; Indonesian endemic with compact, well-formed leaves."),
+
+    # T–Z
+
+    ("tandurusa", "Tandurusa Alocasia", "Alocasia Tandurusa",
+     "Moderate", 14, 70,
+     "Named after a location in Indonesia (Tandurusa, North Sulawesi). "
+     "Sulawesi endemic with distinctive leaf form."),
+    ("venusta", "Beautiful Alocasia", "Alocasia Venusta",
+     "Moderate", 15, 80,
+     "Venusta means 'beautiful' or 'charming' — exceptionally attractive "
+     "species with elegant, graceful foliage."),
+    ("vietnamensis", "Vietnamese Alocasia", "Alocasia Vietnamensis",
+     "Moderate", 12, 65,
+     "From Vietnam. Compact species with well-formed arrowhead leaves; "
+     "tolerates slightly cooler conditions than tropical species."),
+    ("wongii", "Wong's Alocasia", "Alocasia Wongii",
+     "Moderate", 14, 70,
+     "Named after Malaysian botanist S.Y. Wong. Malaysian endemic with "
+     "compact, attractive foliage."),
+    ("yunqiana", "Yunqi's Alocasia", "Alocasia Yunqiana",
+     "Moderate", 14, 70,
+     "Named after Chinese botanist Yun Qi. One of the Chinese Alocasia species; "
+     "relatively rare in cultivation outside Asia."),
+
+    # Undescribed / not-yet-accepted cultivars (*)
+
+    ("'Chienlii'", "Chienlii", "Alocasia Chienlii",
+     "Moderate", 15, 80,
+     "Not yet fully described botanically. Indonesian or Southeast Asian collector cultivar."),
+    ("'Claytonoides'", "Claytonoides", "Alocasia Claytonoides",
+     "Moderate", 15, 80,
+     "Not yet fully described. Name suggests resemblance to another species. "
+     "Collector cultivar."),
+    ("'Inopinata'", "Inopinata", "Alocasia Inopinata",
+     "Moderate", 15, 80,
+     "Inopinata means 'unexpected' or 'unforeseen'. Not yet fully described; "
+     "an unusually formed collector cultivar."),
+    ("'Kulat'", "Kulat", "Alocasia Kulat",
+     "Moderate", 15, 80,
+     "Kulat means 'mushroom' in Malay — an unusual growth form or rounded leaf "
+     "shape. Not yet formally described."),
+    ("'Olanii'", "Olanii", "Alocasia Olanii",
+     "Moderate", 15, 80,
+     "Not yet fully described botanically. Indonesian collector cultivar."),
+    ("'Pasappa'", "Pasappa", "Alocasia Pasappa",
+     "Moderate", 15, 80,
+     "Not yet fully described. Indonesian collector cultivar with attractive foliage."),
+    ("'Pawitira'", "Pawitira", "Alocasia Pawitira",
+     "Moderate", 15, 80,
+     "Not yet fully described. Indonesian collector cultivar; "
+     "possibly a variant of or related to 'Pawitra'."),
+    ("'Prince of Curup'", "Prince of Curup", "Alocasia Prince of Curup",
+     "Moderate", 18, 100,
+     "Named after Curup, a town in Bengkulu, Sumatra. Not yet formally described; "
+     "Indonesian collector cultivar with princely foliage."),
+    ("'Yucatan Princess'", "Yucatan Princess", "Alocasia Yucatan Princess",
+     "Moderate", 15, 80,
+     "Unusual name for an Asian genus. Not yet fully described; "
+     "compact cultivar with elegant leaf form."),
 ]
