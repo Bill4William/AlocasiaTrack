@@ -456,10 +456,11 @@ SPECIES = [
         "Mottled green-and-cream variegation on rounded leaves. Vigorous and more "
         "forgiving than most variegated forms. Corms: $6-14, Pups: $14-30, Plants: $26-60.",
     ),
+    # ('Tiny Dancer' removed — merged into 'Tiny Dancers' which is the correct Aroidpedia name)
     (
-        "'Tiny Dancer'",
-        "Tiny Dancer",
-        "Alocasia Tiny Dancer",
+        "'Tiny Dancers'",
+        "Tiny Dancers",
+        "Alocasia Tiny Dancers",
         "Moderate", 10, 50,
         "Unique cup-shaped leaves on slim upright stems. Very popular novelty variety; "
         "susceptible to overwatering — needs fast-draining aroid mix. "

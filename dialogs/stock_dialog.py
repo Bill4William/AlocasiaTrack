@@ -15,7 +15,9 @@ class StockDialog(ctk.CTkToplevel):
         self.resizable(False, False)
         self.grab_set()
 
-        self._species_map  = SpeciesModel.get_name_id_map()
+        # Use display_name ("Alocasia Polly") for the dropdown — much cleaner than
+        # raw scientific epithets ("amazonica 'Polly'")
+        self._species_map  = SpeciesModel.get_display_name_id_map()
         self._plant_opts   = PlantsModel.get_dropdown_options()  # [(id, label), ...]
         from integrations.config import get_pot_sizes
         self._pot_sizes    = get_pot_sizes()
@@ -179,8 +181,12 @@ class StockDialog(ctk.CTkToplevel):
         self.type_var.set(row["item_type"])
         self._on_type_change()
 
-        if row["species_name"] and row["species_name"] in self._species_map:
-            self.species_dd.set(row["species_name"])
+        # Pre-select species by matching the species_id to the display_name map
+        if row["species_id"]:
+            for display_name, sp_id in self._species_map.items():
+                if sp_id == row["species_id"]:
+                    self.species_dd.set(display_name)
+                    break
 
         if row["parent_nickname"]:
             for pid, lbl in self._plant_opts:

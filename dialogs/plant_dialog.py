@@ -20,7 +20,8 @@ class PlantDialog(ctk.CTkToplevel):
         self.resizable(False, True)
         self.grab_set()
 
-        self._species_map = SpeciesModel.get_name_id_map()
+        # Use display_name ("Alocasia Polly") in the dropdown — cleaner than raw epithets
+        self._species_map = SpeciesModel.get_display_name_id_map()
         from integrations.config import get_pot_sizes
         self._pot_sizes = get_pot_sizes()
 
@@ -103,8 +104,11 @@ class PlantDialog(ctk.CTkToplevel):
         self.photo_panel.pack(fill="x", padx=20, pady=(0, 8))
 
     def _populate(self, row):
-        if row["species_name"] and row["species_name"] in self._species_map:
-            self.species_dd.set(row["species_name"])
+        if row["species_id"]:
+            for display_name, sp_id in self._species_map.items():
+                if sp_id == row["species_id"]:
+                    self.species_dd.set(display_name)
+                    break
         self.nick_entry.insert(0, row["nickname"] or "")
         self.date_entry.insert(0, row["acquired_date"] or "")
         if row["pot_size"] and row["pot_size"] in self._pot_sizes:
