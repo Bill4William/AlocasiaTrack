@@ -99,3 +99,8 @@ def initialize_db():
         # common_name is now the nickname only, e.g. "Polly" / "African Mask Plant"
         if "display_name" not in cols:
             conn.execute("ALTER TABLE species ADD COLUMN display_name TEXT")
+
+    # Run data-quality migrations (deduplication, naming fixes, etc.)
+    # Imported here to avoid circular dependency with models.
+    from database.migrations import run_migrations
+    run_migrations()
