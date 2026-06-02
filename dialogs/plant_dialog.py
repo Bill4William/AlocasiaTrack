@@ -2,6 +2,8 @@ import customtkinter as ctk
 from datetime import date
 from database.models import SpeciesModel, PlantsModel
 from components.photo_panel import PhotoPanel
+from components.searchable_dropdown import SearchableDropdown
+from components.date_picker import DatePickerEntry
 
 
 class PlantDialog(ctk.CTkToplevel):
@@ -48,18 +50,22 @@ class PlantDialog(ctk.CTkToplevel):
         pad = {"padx": 20, "pady": 5}
 
         ctk.CTkLabel(scroll, text="Species *", anchor="w").pack(fill="x", **pad)
-        species_names = list(self._species_map.keys()) or ["— no species —"]
-        self.species_var = ctk.StringVar(value=species_names[0])
-        self.species_menu = ctk.CTkOptionMenu(scroll, variable=self.species_var,
-                                              values=species_names)
-        self.species_menu.pack(fill="x", **pad)
+        self.species_dd = SearchableDropdown(
+            scroll,
+            options=self._species_map,
+            placeholder="Search species…",
+            none_label=None,  # species is required for mother plants
+        )
+        if self._species_map:
+            self.species_dd.set(next(iter(self._species_map)))
+        self.species_dd.pack(fill="x", **pad)
 
         ctk.CTkLabel(scroll, text="Nickname / Label", anchor="w").pack(fill="x", **pad)
         self.nick_entry = ctk.CTkEntry(scroll, placeholder_text="e.g. Big Mama #1")
         self.nick_entry.pack(fill="x", **pad)
 
-        ctk.CTkLabel(scroll, text="Date Acquired (YYYY-MM-DD)", anchor="w").pack(fill="x", **pad)
-        self.date_entry = ctk.CTkEntry(scroll, placeholder_text=str(date.today()))
+        ctk.CTkLabel(scroll, text="Date Acquired", anchor="w").pack(fill="x", **pad)
+        self.date_entry = DatePickerEntry(scroll)
         self.date_entry.pack(fill="x", **pad)
 
         ctk.CTkLabel(scroll, text="Pot Size", anchor="w").pack(fill="x", **pad)
@@ -98,7 +104,7 @@ class PlantDialog(ctk.CTkToplevel):
 
     def _populate(self, row):
         if row["species_name"] and row["species_name"] in self._species_map:
-            self.species_var.set(row["species_name"])
+            self.species_dd.set(row["species_name"])
         self.nick_entry.insert(0, row["nickname"] or "")
         self.date_entry.insert(0, row["acquired_date"] or "")
         if row["pot_size"] and row["pot_size"] in self._pot_sizes:
@@ -110,8 +116,7 @@ class PlantDialog(ctk.CTkToplevel):
             self.notes_box.insert("0.0", row["notes"])
 
     def _save(self):
-        species_name = self.species_var.get()
-        species_id   = self._species_map.get(species_name)
+        species_id = self.species_dd.get_id()
 
         data = {
             "species_id":    species_id,

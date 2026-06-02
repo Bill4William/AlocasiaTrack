@@ -2,6 +2,7 @@ import threading
 import customtkinter as ctk
 from datetime import date
 from database.models import SalesModel, StockModel
+from components.date_picker import DatePickerEntry
 
 
 class SaleDialog(ctk.CTkToplevel):
@@ -67,9 +68,9 @@ class SaleDialog(ctk.CTkToplevel):
                           values=self.PLATFORMS).pack(fill="x", **pad)
 
         # Sale date
-        ctk.CTkLabel(f, text="Sale Date (YYYY-MM-DD)", anchor="w").pack(fill="x", **pad)
-        self.date_entry = ctk.CTkEntry(f)
-        self.date_entry.insert(0, str(date.today()))
+        ctk.CTkLabel(f, text="Sale Date", anchor="w").pack(fill="x", **pad)
+        self.date_entry = DatePickerEntry(f)
+        self.date_entry.set(str(date.today()))
         self.date_entry.pack(fill="x", **pad)
 
         # Buyer

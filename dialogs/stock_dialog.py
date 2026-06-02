@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from database.models import SpeciesModel, PlantsModel, StockModel
 from components.photo_panel import PhotoPanel
+from components.searchable_dropdown import SearchableDropdown
 
 
 class StockDialog(ctk.CTkToplevel):
@@ -62,17 +63,24 @@ class StockDialog(ctk.CTkToplevel):
 
         # Species
         ctk.CTkLabel(self._f, text="Species / Cultivar", anchor="w").pack(fill="x", **pad)
-        sp_names = ["— none —"] + list(self._species_map.keys())
-        self.species_var = ctk.StringVar(value=sp_names[0])
-        self.species_menu = ctk.CTkOptionMenu(self._f, variable=self.species_var, values=sp_names)
-        self.species_menu.pack(fill="x", **pad)
+        self.species_dd = SearchableDropdown(
+            self._f,
+            options=self._species_map,
+            placeholder="Search species…",
+            none_label="— none —",
+        )
+        self.species_dd.pack(fill="x", **pad)
 
         # Parent plant
         ctk.CTkLabel(self._f, text="Parent Plant (optional)", anchor="w").pack(fill="x", **pad)
-        plant_labels = ["— none —"] + [lbl for _, lbl in self._plant_opts]
-        self.parent_var = ctk.StringVar(value=plant_labels[0])
-        self.parent_menu = ctk.CTkOptionMenu(self._f, variable=self.parent_var, values=plant_labels)
-        self.parent_menu.pack(fill="x", **pad)
+        plant_opts = {lbl: pid for pid, lbl in self._plant_opts}
+        self.parent_dd = SearchableDropdown(
+            self._f,
+            options=plant_opts,
+            placeholder="Search mother plants…",
+            none_label="— none —",
+        )
+        self.parent_dd.pack(fill="x", **pad)
 
         # Growth Stage
         ctk.CTkLabel(self._f, text="Growth Stage", anchor="w").pack(fill="x", **pad)
@@ -171,15 +179,13 @@ class StockDialog(ctk.CTkToplevel):
         self.type_var.set(row["item_type"])
         self._on_type_change()
 
-        sp_names = ["— none —"] + list(self._species_map.keys())
         if row["species_name"] and row["species_name"] in self._species_map:
-            self.species_var.set(row["species_name"])
+            self.species_dd.set(row["species_name"])
 
-        plant_labels = ["— none —"] + [lbl for _, lbl in self._plant_opts]
         if row["parent_nickname"]:
-            for _, lbl in self._plant_opts:
+            for pid, lbl in self._plant_opts:
                 if row["parent_nickname"] in lbl:
-                    self.parent_var.set(lbl)
+                    self.parent_dd.set(lbl, pid)
                     break
 
         if row["growth_stage"]:
@@ -205,16 +211,9 @@ class StockDialog(ctk.CTkToplevel):
             except (ValueError, AttributeError):
                 return None
 
-        item_type    = self.type_var.get()
-        species_name = self.species_var.get()
-        species_id   = self._species_map.get(species_name)
-
-        parent_label  = self.parent_var.get()
-        parent_plant_id = None
-        for pid, lbl in self._plant_opts:
-            if lbl == parent_label:
-                parent_plant_id = pid
-                break
+        item_type       = self.type_var.get()
+        species_id      = self.species_dd.get_id()
+        parent_plant_id = self.parent_dd.get_id()
 
         photo_json = self.photo_panel.get_photos_json()
 
