@@ -25,6 +25,7 @@ def _apply_tree_style():
 class SpeciesView(ctk.CTkFrame):
 
     COLS = (
+        "Display Name",
         "Common Name",
         "Scientific / Cultivar Name",
         "Care Level",
@@ -33,7 +34,7 @@ class SpeciesView(ctk.CTkFrame):
         "In Stock",
         "Notes",
     )
-    _COL_WIDTHS = [150, 210, 100, 85, 85, 70, 220]
+    _COL_WIDTHS = [175, 135, 210, 100, 85, 85, 70, 210]
 
     def __init__(self, parent):
         super().__init__(parent, fg_color="transparent")
@@ -149,6 +150,7 @@ class SpeciesView(ctk.CTkFrame):
             self._raw.append({
                 "id":     r["id"],
                 "values": (
+                    r["display_name"] or r["name"],
                     r["common_name"] or "—",
                     r["name"],
                     r["care_level"] or "—",
@@ -414,7 +416,7 @@ class SpeciesView(ctk.CTkFrame):
             return
         row  = SpeciesModel.get_by_id(id_)
         cnt  = SpeciesModel.get_stock_counts().get(id_, 0)
-        name = row["common_name"] or row["name"]
+        name = row["display_name"] or row["common_name"] or row["name"]
         msg  = f"Delete '{name}'?"
         if cnt:
             msg += (f"\n\n{cnt} stock item(s) reference this species "

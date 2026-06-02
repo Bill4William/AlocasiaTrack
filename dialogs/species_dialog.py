@@ -48,7 +48,14 @@ class SpeciesDialog(ctk.CTkToplevel):
         )
         self.name_entry.pack(fill="x", **pad)
 
-        ctk.CTkLabel(f, text="Common Name",
+        ctk.CTkLabel(f, text="Display Name  (shown in trade / listings)",
+                     anchor="w").pack(fill="x", **pad)
+        self.display_name_entry = ctk.CTkEntry(
+            f, placeholder_text="e.g. Alocasia Dragon Scale"
+        )
+        self.display_name_entry.pack(fill="x", **pad)
+
+        ctk.CTkLabel(f, text="Common Name  (nickname only — no 'Alocasia' prefix)",
                      anchor="w").pack(fill="x", **pad)
         self.common_name_entry = ctk.CTkEntry(
             f, placeholder_text="e.g. Dragon Scale"
@@ -77,6 +84,7 @@ class SpeciesDialog(ctk.CTkToplevel):
 
     def _populate(self, row):
         self.name_entry.insert(0, row["name"] or "")
+        self.display_name_entry.insert(0, row["display_name"] or "")
         self.common_name_entry.insert(0, row["common_name"] or "")
         care = row["care_level"] or "Moderate"
         # Normalise legacy values on display
@@ -105,12 +113,13 @@ class SpeciesDialog(ctk.CTkToplevel):
                 return None
 
         self.result = {
-            "name":        name,
-            "common_name": self.common_name_entry.get().strip() or "",
-            "care_level":  self.care_var.get(),
-            "price_min":   _float(self.price_min),
-            "price_max":   _float(self.price_max),
-            "notes":       self.notes_box.get("0.0", "end").strip(),
+            "name":         name,
+            "display_name": self.display_name_entry.get().strip() or "",
+            "common_name":  self.common_name_entry.get().strip() or "",
+            "care_level":   self.care_var.get(),
+            "price_min":    _float(self.price_min),
+            "price_max":    _float(self.price_max),
+            "notes":        self.notes_box.get("0.0", "end").strip(),
         }
 
         if self._row:

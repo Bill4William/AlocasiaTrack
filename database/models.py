@@ -20,27 +20,45 @@ class SpeciesModel:
 
     @staticmethod
     def get_name_id_map() -> dict:
+        """Returns {name: id} — used for dropdowns in the stock/plant dialogs."""
         with get_connection() as conn:
             rows = conn.execute("SELECT id, name FROM species ORDER BY name").fetchall()
             return {r["name"]: r["id"] for r in rows}
 
     @staticmethod
+    def get_display_name_id_map() -> dict:
+        """Returns {display_name_or_name: id} — for searchable dropdowns."""
+        with get_connection() as conn:
+            rows = conn.execute(
+                "SELECT id, name, display_name FROM species ORDER BY name"
+            ).fetchall()
+            result = {}
+            for r in rows:
+                label = r["display_name"] or r["name"]
+                result[label] = r["id"]
+            return result
+
+    @staticmethod
     def create(name, notes="", care_level="Moderate", price_min=None, price_max=None,
-               common_name=""):
+               common_name="", display_name=""):
         with get_connection() as conn:
             conn.execute(
-                "INSERT INTO species (name, common_name, notes, care_level, price_min, price_max) "
-                "VALUES (?,?,?,?,?,?)",
-                (name, common_name or None, notes, care_level, price_min, price_max),
+                "INSERT INTO species "
+                "(name, common_name, display_name, notes, care_level, price_min, price_max) "
+                "VALUES (?,?,?,?,?,?,?)",
+                (name, common_name or None, display_name or None,
+                 notes, care_level, price_min, price_max),
             )
 
     @staticmethod
-    def update(id, name, notes, care_level, price_min, price_max, common_name=""):
+    def update(id, name, notes, care_level, price_min, price_max,
+               common_name="", display_name=""):
         with get_connection() as conn:
             conn.execute(
-                "UPDATE species SET name=?, common_name=?, notes=?, care_level=?, "
-                "price_min=?, price_max=? WHERE id=?",
-                (name, common_name or None, notes, care_level, price_min, price_max, id),
+                "UPDATE species SET name=?, common_name=?, display_name=?, notes=?, "
+                "care_level=?, price_min=?, price_max=? WHERE id=?",
+                (name, common_name or None, display_name or None,
+                 notes, care_level, price_min, price_max, id),
             )
 
     @staticmethod

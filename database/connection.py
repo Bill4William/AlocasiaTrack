@@ -90,9 +90,12 @@ def initialize_db():
             );
         """)
 
-    # Inline migration: add common_name to databases created before this column existed.
-    # Runs after executescript so CREATE TABLE IF NOT EXISTS has already been handled.
+    # Inline migrations — safe to re-run on every launch.
     with get_connection() as conn:
         cols = [r[1] for r in conn.execute("PRAGMA table_info(species)").fetchall()]
         if "common_name" not in cols:
             conn.execute("ALTER TABLE species ADD COLUMN common_name TEXT")
+        # display_name: "Alocasia Polly" style trade name (genus always included)
+        # common_name is now the nickname only, e.g. "Polly" / "African Mask Plant"
+        if "display_name" not in cols:
+            conn.execute("ALTER TABLE species ADD COLUMN display_name TEXT")
